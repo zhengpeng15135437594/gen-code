@@ -1,0 +1,74 @@
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<div lay-filter="dictEditFrom" class="layui-form" style="padding: 20px 0 0 0;">
+	<input type="hidden" id="${entityName}_id" name="id" value="${"$"}{${entityName}.id}" />
+	<#list conditionInfoList as conditionIn>
+		<#if conditionIn.web == 1>
+			<#if conditionIn.type == 1>
+				<div class="layui-form-item">
+					<label class="layui-form-label">${conditionIn.name}：</label>
+					<div class="layui-input-inline">
+						<#if conditionIn.required == 1>
+							<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" class="layui-input" lay-verify="required">
+						<#elseif conditionIn.required == 0>
+							<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" class="layui-input">
+						</#if>
+					</div>
+				</div>
+			</#if>
+			<#if conditionIn.type == 2>
+				<div class="layui-form-item">
+					<label class="layui-form-label">${conditionIn.name}：</label>
+					<div class="layui-input-inline">
+						<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" class="layui-input" lay-verify="required">
+					</div>
+					<div class="layui-input-inline" >
+		                <select name="${conditionIn.entityCode}">                
+		                    <c:forEach var="${conditionIn.entityCode}" items="${conditionIn.entityCode}List" >
+		                    	<option value="" name="${conditionIn.entityCode}"></option>
+		                    </c:forEach>
+		                </select>
+        			</div>
+				</div>
+			</#if>
+			<#if conditionIn.type == 3>
+				<div class="layui-form-item">
+					<label class="layui-form-label">${conditionIn.name}：</label>
+					<div class="layui-input-inline">
+						<c:forEach var="conditionIn.entityCode" items="${conditionIn.entityCode}List">
+								<input type="radio" name="${conditionIn.entityCode}">
+						</c:forEach>
+					</div>
+				</div>
+			</#if>
+			<#if conditionIn.type == 4>
+				<div class="layui-form-item">
+					<label class="layui-form-label">${conditionIn.name}：</label>
+					<div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <input type="checkbox" name="${conditionIn.entityCode}" title="">
+					      <input type="checkbox" name="${conditionIn.entityCode}" title="" checked>
+					      <input type="checkbox" name="${conditionIn.entityCode}" title="">
+					    </div>
+					  </div>
+				</div>
+			</#if>
+			<#if conditionIn.type == 5>
+				<div class="layui-form-item">
+					<label class="layui-form-label">${conditionIn.name}：</label>
+					<div class="layui-input-block">
+      					<#if conditionIn.required == 1>
+							<textarea name="${conditionIn.entityCode}" placeholder="请输入内容" class="layui-textarea" lay-verify="required">${"$"}{${entityName}.${conditionIn.entityCode}}</textarea>
+						<#elseif conditionIn.required == 0>
+							<textarea name="${conditionIn.entityCode}" placeholder="请输入内容" class="layui-textarea">${"$"}{${entityName}.${conditionIn.entityCode}}</textarea>
+						</#if>
+    				</div>
+				</div>
+			</#if>
+		</#if>
+	</#list>
+	<div class="layui-form-item layui-hide">
+		<input type="button" id="${entityName}EditBtn" lay-submit lay-filter="${entityName}EditBtn" value="确认">
+	</div>
+</div>
