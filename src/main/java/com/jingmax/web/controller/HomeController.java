@@ -315,9 +315,9 @@ public class HomeController {
 	
 	/**
 	 * 下载文件
-	 * 
-	 * v1.0 zhanghc 2019年6月27日上午8:35:50
-	 * @return String
+	 * v1.0 peng_zheng 2020年8月31日下午5:49:03
+	 * @param path
+	 * @param response void
 	 */
 	@RequestMapping("/downLoad")
 	public void downLoad(String path, HttpServletResponse response) {
