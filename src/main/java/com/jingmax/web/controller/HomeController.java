@@ -314,15 +314,45 @@ public class HomeController {
 	}
 	
 	/**
+	 * 下载文件
+	 * 
+	 * v1.0 zhanghc 2019年6月27日上午8:35:50
+	 * @return String
+	 */
+	@RequestMapping("/downLoad")
+	public void downLoad(String path, HttpServletResponse response) {
+		
+		File file = new File("d:/6d2798e2d86f426b834703be1bc2e859/yasuo/" + path);
+		System.out.println("d:/6d2798e2d86f426b834703be1bc2e859/yasuo/" + path);
+		if(!file.getParentFile().exists()){
+			file.getParentFile().mkdirs();
+		}
+		OutputStream output = null;
+		try {
+			path = new String(path.getBytes("UTF-8"), "ISO-8859-1");
+			response.addHeader("Content-Disposition", "attachment;filename=" + path);
+			response.setContentType("application/force-download");
+			output = response.getOutputStream();
+			FileUtils.copyFile(file, output);
+			} catch (Exception e) {
+				log.error("完成下载附件失败：", e);
+			} finally {
+				IOUtils.closeQuietly(output);
+			}
+	}
+	
+	/**
 	 * 生产文件
 	 * 
 	 * @param projectName
 	 * @return
 	 */
 	@RequestMapping("/createFile")
-	public List<Map<String, Object>> createFile(String dbAddr, String dbUserName, String dbPwd, String instanceName, 
+	@ResponseBody
+	public Map<String,String> createFile(String dbAddr, String dbUserName, String dbPwd, String instanceName, 
 			String tableName, String realmName, String projectName, String author, String entityName, String searchJson, String templateName, HttpServletResponse response) { // realmName  企业域名    author  作者   projectName 子模块
 		Connection connection = null;
+		Map<String,String> map = new HashMap<>();
 		try {
 			if(!ValidateUtil.isValid(dbAddr)){
 				throw new RuntimeException("参数无效：dbAddr");
@@ -374,30 +404,18 @@ public class HomeController {
 				IOUtils.closeQuietly(out);
 			}
 			String fileName = UUID.randomUUID().toString().replaceAll("-", "") + ".zip";
+			map.put("path", fileName);
 			File file = new File("d:/6d2798e2d86f426b834703be1bc2e859/yasuo/" + fileName);
 			if(!file.getParentFile().exists()){
 				file.getParentFile().mkdirs();
 			}
 			ZipUtil.doZip("d:/6d2798e2d86f426b834703be1bc2e859/shengcheng", file);
 			
-			OutputStream output = null;
-			try {
-				fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");
-				response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
-				response.setContentType("application/force-download");
-
-				output = response.getOutputStream();
-				FileUtils.copyFile(file, output);
-			} catch (Exception e) {
-				log.error("完成下载附件失败：", e);
-			} finally {
-				IOUtils.closeQuietly(output);
-			}
 		} catch (Exception e) {
 			DBUtil.close(connection);
 			log.error("初始化错误：", e);
 		}
-		return null;
+		return map;
 	}
 
 	private String parseRealmName(String realmName) {

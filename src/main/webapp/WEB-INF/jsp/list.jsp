@@ -330,17 +330,13 @@
 				data.field.author = $("input[name='five']").val();
 				data.field.templateName = $("select[name='templateLib']").val();
 				
-				console.log(data.field);
-				
 					$.ajax({
 						url : "home/createFile",
 						data : data.field,
+						async: false,
 						success : function(obj) {
-
-							if (!obj.succ) {
-								layer.alert(obj.msg, {"title" : "提示消息"});
-								return;
-							}
+							console.log(obj.path);
+							window.location.href = '/home/downLoad?path='+obj.path;
 							
 							layui.form.render(null, "from");
 						}
