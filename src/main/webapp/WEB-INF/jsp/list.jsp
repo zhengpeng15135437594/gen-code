@@ -5,6 +5,48 @@
 	<head>
 		<title>列表</title>
 		<%@include file="/script/myJs/common.jspf"%>
+		<style type="text/css">
+		 .layui-form-radio i {
+			  top: 0;
+			  width: 15px;
+			  height: 15px;
+			  line-height: 15px;
+			  border: 1px solid #d2d2d2;
+			  font-size: 10px;
+			  border-radius: 2px;
+			  background-color: #fff;
+			  color: #fff !important;
+			}
+			.layui-form-radioed i {
+			  position: relative;
+			  width: 12px;
+			  height: 15px;
+			  border-style: solid;
+			  background-color: #6A8BF5;
+			  color: #6A8BF5 !important;
+			}
+			/* 使用伪类画选中的对号 */
+			.layui-form-radioed i::after, .layui-form-radioed i::before {
+			  content: "";
+			  position: absolute;
+			  top: 8px;
+			  left: 3px;
+			  display: block;
+			  width: 12px;
+			  height: 2px;
+			  border-radius: 4px;
+			  background-color: #fff;
+			  -webkit-transform: rotate(-45deg);
+			  transform: rotate(-45deg);
+			}
+			.layui-form-radioed i::before {
+			  position: absolute;
+			  top: 10px;
+			  left: 1px;
+			  width: 5px;
+			  transform: rotate(-135deg);
+			}
+		</style>
 	</head>
 	<body>
 		<div class="layui-fluid">
@@ -255,7 +297,7 @@
 							html.push("<input type='hidden' name='"+obj.data[i].code+"_code' value='"+obj.data[i].code+"'>");
 							html.push("</td>");
 							html.push("<td>");
-							html.push("<input type='text' name='"+obj.data[i].code+"_name' placeholder='请输入名称' class='layui-input' value='"+obj.data[i].name+"'>");
+							html.push("<input type='text'  style='border-style:none' name='"+obj.data[i].code+"_name' placeholder='请输入名称' class='layui-input' value='"+obj.data[i].name+"'>");
 							html.push("</td>");
 							html.push("<td>");
 							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='1' title='输入' checked>");
@@ -263,6 +305,8 @@
 							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='3' title='单选'>");
 							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='4' title='多选'>");
 							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='5' title='文本域'>");
+							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='6' title='时间'>");
+							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='7' title='数据字典'>");
 							html.push("</td>");
 							html.push("<td>");
 							html.push("<input type='checkbox' name='"+obj.data[i].code+"_web' lay-skin='switch' lay-filter='web' value='1' lay-text='开启|关闭'  checked>");
@@ -356,17 +400,25 @@
 		
 		
         //监听开关事件
-        /* form.on('switch(web)', function (data) {
+        layui.form.on('switch(web)', function (data) {
+        	console.log(data);
             var contexts;
             var sta;
             var x = data.elem.checked;//判断开关状态
             if (x==true) {
-                sta=1;
+            	console.log("开");
             } else {
-                sta=0;
+            	console.log("关");
             }
-        }); */
-		
-		
+        });
+       layui.form.on('switch(required)', function (data) {
+        	console.log(data);
+            var contexts;
+            var sta;
+            var x = data.elem.checked;//判断开关状态
+            if (x==true) {
+            	 
+            }
+        });
 	</script>
 </html>
