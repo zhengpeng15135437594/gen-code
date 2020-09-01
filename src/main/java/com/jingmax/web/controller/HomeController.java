@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,7 +58,9 @@ public class HomeController {
 	private static final Logger log = LoggerFactory.getLogger(HomeController.class);
 
 	private static final String sysLoginName = "admin";
-	private static final String sysPassword = "admin";
+//	private static final String sysPassword = "admin";
+	@Value("sys.password")
+	private String sysPassword;
 	
 	/**
 	  * 登录页面

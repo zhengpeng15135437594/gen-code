@@ -23,7 +23,17 @@ public class JsonUtil {
 	public static List<ConditionInfo> stringToJson(String conditionInfo){
 		JSONArray conditionJson = JSON.parseArray(conditionInfo);
 		Iterator<Object> conditionIterator = conditionJson.iterator();
-		List<ConditionInfo> ConditionInfoList = new ArrayList<>();
+		List<ConditionInfo> conditionInfoList = new ArrayList<>();
+		ConditionInfo conditionId = new ConditionInfo();
+		conditionId.setCode("ID");
+		conditionId.setName("ID");
+		conditionId.setType(1);
+		conditionId.setWeb(0);
+		conditionId.setRequired(0);
+		conditionId.setSearch(0);
+		conditionId.setSort(0);
+		conditionId.setEntityCode("id");
+		conditionInfoList.add(conditionId);
 		while (conditionIterator.hasNext()) {
 			JSONObject jsonObject = (JSONObject) conditionIterator.next();
 			String humpStr = StringUtil.toHumpStr(jsonObject.get("code").toString(), "_", true);
@@ -44,8 +54,9 @@ public class JsonUtil {
 			condition.setSearch(Integer.parseInt(jsonObject.get("search").toString()));
 			condition.setSort(Integer.parseInt(jsonObject.get("sort").toString()));
 			condition.setEntityCode(humpStr);
-			ConditionInfoList.add(condition);
+			conditionInfoList.add(condition);
 		}
-		return ConditionInfoList;
+		
+		return conditionInfoList;
 	}
 }
