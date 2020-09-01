@@ -293,11 +293,11 @@
 						for (var i in obj.data) {
 							html.push("<tr>");
 							html.push("<td>");
-							html.push(obj.data[i].code);
+							html.push("<input type='text' style='border-style:none; width: 130px' class='layui-input' value='"+obj.data[i].code+"'>");
 							html.push("<input type='hidden' name='"+obj.data[i].code+"_code' value='"+obj.data[i].code+"'>");
 							html.push("</td>");
 							html.push("<td>");
-							html.push("<input type='text'  style='border-style:none' name='"+obj.data[i].code+"_name' placeholder='请输入名称' class='layui-input' value='"+obj.data[i].name+"'>");
+							html.push("<input type='text' style='border-style:none; width: 90px' name='"+obj.data[i].code+"_name' placeholder='请输入名称' class='layui-input' value='"+obj.data[i].name+"'>");
 							html.push("</td>");
 							html.push("<td>");
 							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='1' title='输入' checked>");
