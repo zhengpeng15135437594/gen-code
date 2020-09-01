@@ -62,6 +62,9 @@
 								<cite>管理员</cite>
 							</a>
 							<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:void(0);" onclick="topwdUpdate();">修改密码</a>
+							</dd>
 							</dl>
 						</li>
 	
@@ -147,5 +150,51 @@
 		
 	</body>
 	<%@include file="/script/myJs/tail.jspf"%>
+	<script type="text/javascript">
+		// 到达修改密码页面
+		function topwdUpdate(){
+			$.ajax({
+				url : "login/toPwdUpdate",
+				dataType : "html",
+				success : function(obj) {
+					layer.open({
+						title : "修改密码",
+						area : ["400px", "250px"],
+						content : obj,
+						btn : ["修改", "取消"],
+						type : 1,
+						yes : function(index, layero){
+							doPwdUpdate(index);
+						},
+						success: function(layero, index){
+							
+						}
+					});
+				}
+			});
+		}
+		
+		//完成修改密码
+		function doPwdUpdate(pwdUpdateIndex) {
+			layui.form.on("submit(pwdUpdateBtn)", function(data) {
+				layer.confirm("确定要修改？", function(index) {
+					$.ajax({
+						url : "login/doPwdUpdate",
+						data : data.field,
+						success : function(obj) {
+							if (!obj.succ) {
+								layer.alert(obj.msg, {"title" : "提示消息"});
+								return;
+							}
+							
+							layer.close(index);
+							layer.close(pwdUpdateIndex);
+						}
+					});
+				});
+			});
+			$("[lay-filter='pwdUpdateBtn']").click();
+		}
+	</script>
 </html>
 
