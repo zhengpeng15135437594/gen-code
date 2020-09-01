@@ -56,13 +56,13 @@
 					<input type="hidden" id="user_one" name="one">
 					<div class="layui-form-item">
 						<div class="layui-inline">
-							<input type="text" name="dbAddr" placeholder="请输入DB地址" class="layui-input" value="127.0.0.1">
+							<input type="text" name="dbAddr" placeholder="请输入DB地址" class="layui-input" value="">
 						</div>
 						<div class="layui-inline">
-							<input type="text" name="dbUserName" placeholder="请输入DB用户名" class="layui-input" value="root">
+							<input type="text" name="dbUserName" placeholder="请输入DB用户名" class="layui-input" value="">
 						</div>
 						<div class="layui-inline">
-							<input type="text" name="dbPwd" placeholder="请输入DB密码" class="layui-input" value="root"> <!-- EGHJDKhdsng.&jdsk456 -->
+							<input type="password" name="dbPwd" placeholder="请输入DB密码" class="layui-input" value="">
 						</div>
 						<div class="layui-inline">
 							<button type="button" lay-submit lay-filter="connDb" class="layui-btn layuiadmin-btn-useradmin" onclick="connDb()">
@@ -85,13 +85,13 @@
 					</div>
 					<div class="layui-form-item">
 						<div class="layui-inline">
-							<input type="text" name="two" placeholder="请输入公司域名" class="layui-input" value="jingmax.com">
+							<input type="text" name="two" placeholder="请输入公司域名" class="layui-input" value="">
 						</div>
 						<div class="layui-inline">
-							<input type="text" name="three" placeholder="请输入项目模块" class="layui-input" value="jm">
+							<input type="text" name="three" placeholder="请输入项目模块" class="layui-input" value="">
 						</div>
 						<div class="layui-inline">
-							<input type="text" name="five" placeholder="请输入作者" class="layui-input" value="zhanghc">
+							<input type="text" name="five" placeholder="请输入作者" class="layui-input" value="">
 						</div>
 						<div class="layui-inline" style="width: 182px">
 					       <select name = "templateLib" lay-filter="">
@@ -293,7 +293,7 @@
 						for (var i in obj.data) {
 							html.push("<tr>");
 							html.push("<td>");
-							html.push("<input type='text' style='border-style:none; width: 130px' class='layui-input' value='"+obj.data[i].code+"'>");
+							html.push("<span style='width: 90px'>"+obj.data[i].code+"</span>");
 							html.push("<input type='hidden' name='"+obj.data[i].code+"_code' value='"+obj.data[i].code+"'>");
 							html.push("</td>");
 							html.push("<td>");
