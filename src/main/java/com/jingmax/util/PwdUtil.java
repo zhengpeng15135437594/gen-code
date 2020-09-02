@@ -45,14 +45,8 @@ public class PwdUtil {
 	        File file = new File(path);
 	        if(!file.exists()) {
 	            file.createNewFile();
-	        }
-            FileWriter fileWriter =new FileWriter(file);
-            fileWriter.write("");
-            fileWriter.flush();
-            fileWriter.close();
-            
+	        }       
 			FileOutputStream fileOutputStream = new FileOutputStream(file);
-			
 			fileOutputStream.write(newPwd.getBytes());
 
 			fileOutputStream.close();
