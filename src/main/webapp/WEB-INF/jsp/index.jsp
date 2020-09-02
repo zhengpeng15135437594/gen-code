@@ -154,7 +154,7 @@
 		// 到达修改密码页面
 		function topwdUpdate(){
 			$.ajax({
-				url : "login/toPwdUpdate",
+				url : "home/toPwdUpdate",
 				dataType : "html",
 				success : function(obj) {
 					layer.open({
@@ -179,7 +179,7 @@
 			layui.form.on("submit(pwdUpdateBtn)", function(data) {
 				layer.confirm("确定要修改？", function(index) {
 					$.ajax({
-						url : "login/doPwdUpdate",
+						url : "home/doPwdUpdate",
 						data : data.field,
 						success : function(obj) {
 							if (!obj.succ) {

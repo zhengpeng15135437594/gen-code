@@ -24,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +39,7 @@ import com.jingmax.entity.PageResultEx;
 import com.jingmax.util.DBUtil;
 import com.jingmax.util.DateUtil;
 import com.jingmax.util.JsonUtil;
+import com.jingmax.util.PwdUtil;
 import com.jingmax.util.StringUtil;
 import com.jingmax.util.TemplateUtil;
 import com.jingmax.util.ValidateUtil;
@@ -59,8 +59,6 @@ public class HomeController {
     private static HashMap<String, String> fromMap;
 	
 	private static final String sysLoginName = "admin";
-	@Value("${sys.password}")
-	private String sysPassword;
 	
 	/**
 	  * 登录页面
@@ -87,7 +85,7 @@ public class HomeController {
 	 @RequestMapping("/doLogin")
 	 public String doLogin(String loginName, String password) {
 	  try {
-	   if(sysLoginName.equals(loginName) && sysPassword.equals(password)){
+	   if(sysLoginName.equals(loginName) && PwdUtil.getPwd().equals(password)){
 			return "/index";
 	   }
 	  } catch (Exception e) {
@@ -153,7 +151,49 @@ public class HomeController {
 			return "/list";
 		}
 	}
-	
+	/**
+	 * 到达修改密码页面 
+	 * v1.0 peng_zheng 2020年9月1日上午9:35:30
+	 * @return String
+	 */
+	@RequestMapping("/toPwdUpdate")
+	public String toPwdUpdate() {
+		try {
+			return "/pwdUpdate";
+		} catch (Exception e) {
+			log.error("到达修改密码页面错误：", e);
+			return "/pwdUpdate";
+		}
+	}
+
+	/**
+	 * 完成修改密码
+	 * 
+	 * v1.0 peng_zheng 2020年9月1日上午9:35:30
+	 * @param oldPwd
+	 * @param newPwd
+	 * @return PageResult
+	 */
+	@RequestMapping("/doPwdUpdate")
+	@ResponseBody
+	public PageResult pubDoPwdUpdate(String oldPwd, String newPwd) {
+		try {
+			if(!ValidateUtil.isValid(oldPwd)){
+				throw new RuntimeException("参数错误：oldPwd");
+			}
+			if(!ValidateUtil.isValid(newPwd)){
+				throw new RuntimeException("参数错误：newPwd");
+			}
+			if(!PwdUtil.getPwd().equals(oldPwd)){
+				throw new RuntimeException("原密码错误");
+			}
+			PwdUtil.updatePwd(oldPwd, newPwd);
+			return new PageResult(true, "修改成功");
+		} catch (Exception e) {
+			log.error("修改密码错误：", e);
+			return new PageResult(false, "修改失败：" + e.getMessage());
+		}
+	}
 	/**
 	 * 模板列表
 	 * 

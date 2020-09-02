@@ -14,4 +14,3 @@ spring:
 
 sys:
   ver: 1.0.0
-  password: admin
