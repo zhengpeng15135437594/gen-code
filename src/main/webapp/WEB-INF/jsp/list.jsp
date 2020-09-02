@@ -56,10 +56,10 @@
 					<input type="hidden" id="user_one" name="one">
 					<div class="layui-form-item">
 						<div class="layui-inline">
-							<input type="text" name="dbAddr" placeholder="请输入DB地址" class="layui-input" value="">
+							<input type="text" name="dbAddr" placeholder="请输入DB地址" class="layui-input" value="${from.dbAddr }">
 						</div>
 						<div class="layui-inline">
-							<input type="text" name="dbUserName" placeholder="请输入DB用户名" class="layui-input" value="">
+							<input type="text" name="dbUserName" placeholder="请输入DB用户名" class="layui-input" value="${from.dbUserName }">
 						</div>
 						<div class="layui-inline">
 							<input type="password" name="dbPwd" placeholder="请输入DB密码" class="layui-input" value="">
@@ -85,13 +85,13 @@
 					</div>
 					<div class="layui-form-item">
 						<div class="layui-inline">
-							<input type="text" name="two" placeholder="请输入公司域名" class="layui-input" value="">
+							<input type="text" name="two" placeholder="请输入公司域名" class="layui-input" value="${from.realmName }">
 						</div>
 						<div class="layui-inline">
-							<input type="text" name="three" placeholder="请输入项目模块" class="layui-input" value="">
+							<input type="text" name="three" placeholder="请输入项目模块" class="layui-input" value="${from.projectName }">
 						</div>
 						<div class="layui-inline">
-							<input type="text" name="five" placeholder="请输入作者" class="layui-input" value="">
+							<input type="text" name="five" placeholder="请输入作者" class="layui-input" value="${from.author }">
 						</div>
 						<div class="layui-inline" style="width: 182px">
 					       <select name = "templateLib" lay-filter="">
@@ -267,7 +267,10 @@
 							"dbUserName" : $("input[name='dbUserName']").val(), 
 					   		"dbPwd" : $("input[name='dbPwd']").val(),
 					   		"dbName" : $("select[name='instanceName']").val(),
-							"dbTableName" : $("select[name='tableName']").val()},
+							"dbTableName" : $("select[name='tableName']").val(),
+							"realmName" : $("input[name='two']").val(),
+							"projectName" : $("input[name='three']").val(),
+							"author" : $("input[name='five']").val()},
 					success : function(obj) {
 
 						if (!obj.succ) {

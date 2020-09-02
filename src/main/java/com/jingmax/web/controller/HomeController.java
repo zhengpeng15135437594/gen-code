@@ -56,10 +56,10 @@ import freemarker.template.Template;
 @RequestMapping("/home")
 public class HomeController {
 	private static final Logger log = LoggerFactory.getLogger(HomeController.class);
-
+    private static HashMap<String, String> fromMap;
+	
 	private static final String sysLoginName = "admin";
-//	private static final String sysPassword = "admin";
-	@Value("sys.password")
+	@Value("${sys.password}")
 	private String sysPassword;
 	
 	/**
@@ -88,14 +88,13 @@ public class HomeController {
 	 public String doLogin(String loginName, String password) {
 	  try {
 	   if(sysLoginName.equals(loginName) && sysPassword.equals(password)){
-	    return "/index";
-	   }else{
-	    return "/login";
+			return "/index";
 	   }
 	  } catch (Exception e) {
 	   log.error("登录页错误：", e);
 	   return "/login";
 	  }
+	  return "/login";
 	 }
 	
 	/**
@@ -137,6 +136,17 @@ public class HomeController {
 				}
 			}
 			model.addAttribute("files", list);
+			if(fromMap != null){
+				model.addAttribute("from", fromMap);
+			}else{
+				fromMap = new HashMap<String, String>();
+				fromMap.put("dbAddr", "");
+				fromMap.put("dbUserName", "");
+				fromMap.put("realmName", "");
+				fromMap.put("projectName", "");
+				fromMap.put("author", "");
+				model.addAttribute("from", fromMap);
+			}
 			return "/list";
 		} catch (Exception e) {
 			log.error("默认首页错误：", e);
@@ -288,11 +298,17 @@ public class HomeController {
 	 */
 	@RequestMapping("/createFrom")
 	@ResponseBody
-	public PageResult createFrom(String dbAddr, String dbUserName, String dbPwd, String dbName, String dbTableName) {
+	public PageResult createFrom(String dbAddr, String dbUserName, String dbPwd, String dbName, String dbTableName, String realmName, String projectName, String author) {
 		try {
 			if(!ValidateUtil.isValid(dbTableName)){
 				throw new RuntimeException("参数无效：dbTableName");
 			}
+			
+			fromMap.put("dbAddr", dbAddr);
+			fromMap.put("dbUserName", dbUserName);
+			fromMap.put("realmName", realmName);
+			fromMap.put("projectName", projectName);
+			fromMap.put("author", author);
 			
 			String driverName = "com.mysql.cj.jdbc.Driver";
 			String jdbcUrl = "jdbc:mysql://"+dbAddr+"?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
@@ -315,7 +331,7 @@ public class HomeController {
 			return new PageResult(false, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 下载文件
 	 * v1.0 peng_zheng 2020年8月31日下午5:49:03
