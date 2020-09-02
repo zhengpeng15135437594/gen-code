@@ -31,10 +31,10 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 		sqlUtil.addWhere(ValidateUtil.isValid(pageIn.getOne()), "${tableAlias}.ID = ?", pageIn.getOne())
 				<#list conditionInfoList as condition>
 					<#if condition.search == 1>
-						.addWhere(ValidateUtil.isValid(${tableAlias}.${condition.pageIn}), "${tableAlias}.${condition.code} = ?", ${tableAlias}.${condition.pageIn})
+						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} = ?", ${condition.pageIn})
 					</#if>
 					<#if condition.search == 2>
-						.addWhere(ValidateUtil.isValid(${tableAlias}.${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", "%" + ${tableAlias}.${condition.pageIn} + "%")
+						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", "%" + ${condition.pageIn} + "%")
 					</#if>
 				</#list>
 				<#list conditionInfoList as conditionIn>

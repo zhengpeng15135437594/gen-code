@@ -1,6 +1,8 @@
 package ${packageName}.${projectName}.dao.impl;
 
 import org.springframework.stereotype.Repository;
+import java.util.List;
+import java.util.Map;
 
 import ${packageName}.core.dao.impl.RBaseDaoImpl;
 import ${packageName}.core.entity.PageIn;
@@ -56,5 +58,25 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 					</#if>
 				</#list>
 		return pageOut;
+	}
+	
+	@Override
+	public List<Map<String, Object>> getTreeList() {
+		String sql = "SELECT T.ID, T.NAME, T.PARENT_ID, T.PARENT_SUB FROM ${tableCode} T WHERE T.STATE = 1";
+		return getMapList(sql);
+	}
+
+	@Override
+	public void doMove(Integer sourceId, Integer targetId) {
+		${entityNameFU} sourceOrg = getEntity(sourceId);
+		${entityNameFU} targetOrg = getEntity(targetId);
+		sourceOrg.setParentId(targetId);
+		flush();
+
+		String sql = "UPDATE ${tableCode} ${tableAlias}" //
+				+ "   SET ${tableAlias}.PARENT_SUB = REPLACE(${tableAlias}.PARENT_SUB, ?, ?)" + " WHERE ${tableAlias}.PARENT_SUB LIKE ?";
+		Object[] params = new Object[] { sourceOrg.getParentSub(), targetOrg.getParentSub() + sourceOrg.getId() + "_",
+				sourceOrg.getParentSub() + "%" };
+		update(sql, params);
 	}
 }
