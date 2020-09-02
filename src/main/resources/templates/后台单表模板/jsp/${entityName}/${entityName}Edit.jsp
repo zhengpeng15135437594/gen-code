@@ -66,10 +66,10 @@
     				</div>
 				</div>
 			</#if>
-			<#if conditionIn.type == 6> <!-- 时间 -->
+			<#if conditionIn.type == 6>
 				<div class="layui-form-item">
 					<label class="layui-form-label">${conditionIn.name}：</label>
-					<div class="layui-input-inline">
+					<div class="layui-input-block">
 						<#if conditionIn.required == 1>
 							<input type="text" name="${conditionIn.entityCode}" class="layui-input" value="${"$"}{${entityName}.${conditionIn.entityCode}}" id="test-laydate-type-datetime" placeholder="yyyy-MM-dd HH:mm:ss" readonly="readonly">
 						<#elseif conditionIn.required == 0>
@@ -78,7 +78,18 @@
     				</div>
 				</div>
 			</#if>
-			
+			<#if conditionIn.type == 7>
+				<div class="layui-form-item">
+					<label class="layui-form-label">${conditionIn.name}：</label>
+					<div class="layui-input-inline">
+						<select name="${conditionIn.entityCode}" lay-filter="">
+						<c:forEach var="dict" items="${conditionIn.entityCode}List">
+						<option value="${"$"}{dict.dictKey }" ${"$"}{dict.dictKey == ${"$"}{${entityName}.${conditionIn.entityCode}} ? "selected" : ""}> ${"$"}{dict.dictValue }</option>
+						</c:forEach>
+						</select>
+    				</div>
+				</div>
+			</#if>
 		</#if>
 	</#list>
 	<div class="layui-form-item layui-hide">

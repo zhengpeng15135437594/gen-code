@@ -309,10 +309,10 @@
 							html.push("<input type='radio' name='"+obj.data[i].code+"_type' value='7' title='数据字典'>");
 							html.push("</td>");
 							html.push("<td>");
-							html.push("<input type='checkbox' name='"+obj.data[i].code+"_web' lay-skin='switch' lay-filter='web' value='1' lay-text='开启|关闭'  checked>");
+							html.push("<input type='checkbox' name='"+obj.data[i].code+"_web' lay-skin='switch' lay-filter='web' value='1' lay-text='开启|关闭' checked>");
 							html.push("</td>");
 							html.push("<td>");
-							html.push("<input type='checkbox' name='"+obj.data[i].code+"_required' lay-skin='switch' lay-filter='required' value='1' lay-text='开启|关闭'  checked>");
+							html.push("<input type='checkbox' name='"+obj.data[i].code+"_required' lay-skin='switch' lay-filter='required' value='1' lay-text='开启|关闭' checked>");
 							html.push("</td>");
 							html.push("<td>");
 							html.push("<input type='radio' name='"+obj.data[i].code+"_search' value='0' title='关闭' checked>");
@@ -398,26 +398,14 @@
 			});
 		}
 		
-		
         //监听开关事件
         layui.form.on('switch(web)', function (data) {
-        	console.log(data);
             var contexts;
             var sta;
             var x = data.elem.checked;//判断开关状态
-            if (x==true) {
-            	console.log("开");
-            } else {
-            	console.log("关");
-            }
-        });
-       layui.form.on('switch(required)', function (data) {
-        	console.log(data);
-            var contexts;
-            var sta;
-            var x = data.elem.checked;//判断开关状态
-            if (x==true) {
-            	 
+            if (x!=true) {
+            	 $(this).parent().next("td").find("input").removeAttr('checked');
+            	 layui.form.render();
             }
         });
 	</script>

@@ -74,6 +74,12 @@
 						{field : "ID", title : "", checkbox : true},
 						<#elseif conditionInfo.code != "ID">
 						<#if conditionInfo.web == 1>
+						<#if conditionInfo.type == 6>
+						{field : "${conditionInfo.code}_STR", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
+						</#if>
+						<#if conditionInfo.type == 7>
+						{field : "${conditionInfo.code}_NAME", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
+						</#if>
 						{field : "${conditionInfo.code}", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
 						</#if>
 						</#if>
@@ -255,5 +261,14 @@
 				});
 			});
 		}
+		
+		<#list conditionInfoList as conditionInfo>
+		<#if conditionInfo.type == 6>
+		layui.laydate.render({
+	        elem: '#${conditionInfo.entityCode}'
+	        ,type: 'datetime'
+	      })
+		</#if>
+		</#list>
 	</script>
 </html>

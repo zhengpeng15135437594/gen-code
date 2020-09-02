@@ -15,6 +15,7 @@ import ${packageName}.core.entity.PageOut;
 import ${packageName}.core.entity.PageResult;
 import ${packageName}.${projectName}.entity.${entityNameFU};
 import ${packageName}.${projectName}.service.${entityNameFU}Service;
+import ${packageName}.sys.cache.DictCache;
 
 /**
  * ${tableName}控制层
@@ -29,6 +30,7 @@ public class ${entityNameFU}Controller extends BaseController {
 	@Resource
 	private ${entityNameFU}Service ${entityName}Service;
 	
+	<#assign tableAlias=tableCode?substring(tableCode?index_of('_') + 1)  >
 	/**
 	 * 到达${tableName}列表页面
 	 * 
@@ -69,8 +71,13 @@ public class ${entityNameFU}Controller extends BaseController {
 	 * @return String
 	 */
 	@RequestMapping("/toAdd")
-	public String toAdd() {
+	public String toAdd(Model model) {
 		try {
+			<#list conditionInfoList as condition>
+				<#if condition.type == 7>
+			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
+				</#if>
+			</#list>
 			return "/sys/${entityName}/${entityName}Edit";
 		} catch (Exception e) {
 			log.error("到达添加${tableName}页面错误：", e);
@@ -107,6 +114,11 @@ public class ${entityNameFU}Controller extends BaseController {
 		try {
 			${entityNameFU} ${entityName} = ${entityName}Service.getEntity(id);
 			model.addAttribute("${entityName}", ${entityName});
+			<#list conditionInfoList as condition>
+				<#if condition.type == 7>
+			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
+				</#if>
+			</#list>
 			return "/sys/${entityName}/${entityName}Edit";
 		} catch (Exception e) {
 			log.error("到达修改${tableName}页面错误：", e);

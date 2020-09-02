@@ -8,6 +8,9 @@ import ${packageName}.core.entity.PageOut;
 import ${packageName}.core.util.SqlUtil;
 import ${packageName}.core.util.SqlUtil.Order;
 import ${packageName}.core.util.ValidateUtil;
+import ${packageName}.core.util.HibernateUtil;
+import ${packageName}.core.util.DateUtil;
+import ${packageName}.sys.cache.DictCache;
 import ${packageName}.${projectName}.dao.${entityNameFU}Dao;
 import ${packageName}.${projectName}.entity.${entityNameFU};
 
@@ -44,6 +47,14 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 				</#list>
 				;
 		PageOut pageOut = getListpage(sqlUtil, pageIn);
+				<#list conditionInfoList as condition>
+					<#if condition.type == 6>
+				HibernateUtil.formatDate(pageOut.getRows(), "${condition.code}", DateUtil.FORMAT_DATE_TIME);
+					</#if>
+					<#if condition.type == 7>
+				HibernateUtil.formatDict(pageOut.getRows(), DictCache.getIndexkeyValueMap(), "${tableAlias}_${condition.code}", "${condition.code}");
+					</#if>
+				</#list>
 		return pageOut;
 	}
 }
