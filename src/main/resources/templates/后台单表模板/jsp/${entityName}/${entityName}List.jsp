@@ -10,13 +10,11 @@
 	<body>
 		<div class="layui-fluid">
 			<div class="layui-card">
-			<%-- ${tableName}查询条件 --%>
+				<%-- ${tableName}查询条件 --%>
 				<form id="${entityName}QueryForm" class="layui-form layui-card-header layuiadmin-card-header-auto">
-					<div class="layui-form-item layui-form-item-ex">
+					<div class="layui-form-item ">
 						<div class="layui-inline">
-							<div class="layui-input-block">
-								<input type="text" name="one" placeholder="请输入ID" class="layui-input">
-							</div>
+							<input type="text" name="one" placeholder="请输入ID" class="layui-input">
 						</div>
 						<div class="layui-inline">
 							<button type="button" class="layui-btn layuiadmin-btn-useradmin" onclick="${entityName}Query();">
@@ -61,14 +59,15 @@
 						<#list conditionInfoList as conditionInfo>
 						<#if conditionInfo.web == 1>
 						<#if conditionInfo.type == 6>
-						{field : "${conditionInfo.code}_STR", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
+						{field : "${conditionInfo.code}_STR", title : "${conditionInfo.name}", align : "center"},
 						</#if>
 						<#if conditionInfo.type == 7>
-						{field : "${conditionInfo.code}_NAME", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
+						{field : "${conditionInfo.code}_NAME", title : "${conditionInfo.name}", align : "center"},
 						</#if>
-						{field : "${conditionInfo.code}", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
+						{field : "${conditionInfo.code}", title : "${conditionInfo.name}", align : "center"},
 						</#if>
 						</#list>
+						{fixed: 'right', title : "操作 ", toolbar : "#${entityName}Toolbar", align : "center"}
 						]],
 				page : true,
 				height : "full-180",

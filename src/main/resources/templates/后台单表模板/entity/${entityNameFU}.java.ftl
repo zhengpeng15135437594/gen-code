@@ -51,9 +51,9 @@ public class ${entityNameFU} {
 	private Long ${ftlDetail.fieldName};
 	</#if>
 	</#list>
-
 	<#list ftlDetailList as ftlDetail>
 	<#if ftlDetail.colType == "VARCHAR" || ftlDetail.colType == "TEXT">
+	
 	public String get${ftlDetail.fieldNameFU}() {
 		return ${ftlDetail.fieldName};
 	}

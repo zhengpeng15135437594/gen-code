@@ -18,7 +18,7 @@ import ${packageName}.core.entity.PageResult;
 import ${packageName}.${projectName}.entity.${entityNameFU};
 import ${packageName}.${projectName}.service.${entityNameFU}Service;
 import ${packageName}.sys.cache.DictCache;
-import ${packageName}.${projectName}.core.exception.MyException;
+import ${packageName}.core.exception.MyException;
 
 /**
  * ${tableName}控制层
@@ -118,13 +118,13 @@ public class ${entityNameFU}Controller extends BaseController {
 		try {
 			<#list conditionInfoList as condition>
 				<#if condition.entityCode == "updateTime">
-					${entityName}.setUpdateTime(new Date());
+			${entityName}.setUpdateTime(new Date());
 				</#if>
 				<#if condition.entityCode == "updateUserId">
-					${entityName}.setUpdateUserId(getCurUser().getId());
+			${entityName}.setUpdateUserId(getCurUser().getId());
 				</#if>
 				<#if condition.entityCode == "saasId">
-					${entityName}.setSaasId(getCurUser().getSaasId());
+			${entityName}.setSaasId(getCurUser().getSaasId());
 				</#if>
 			</#list>
 			${entityName}Service.add(${entityName});
@@ -175,17 +175,17 @@ public class ${entityNameFU}Controller extends BaseController {
 			<#list conditionInfoList as condition>
 				<#if condition.required == 1>
 					<#if condition.entityCode != "saasId" && condition.entityCode != "updateUserId" && condition.entityCode != "updateTime">
-						entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump});
+			entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump});
 					</#if>
 				</#if>
 				<#if condition.entityCode == "updateTime">
-					entity.setUpdateTime(new Date());
+			entity.setUpdateTime(new Date());
 				</#if>
 				<#if condition.entityCode == "updateUserId">
-					entity.setUpdateUserId(getCurUser().getId());
+			entity.setUpdateUserId(getCurUser().getId());
 				</#if>
 				<#if condition.entityCode == "saasId">
-					entity.setSaasId(getCurUser().getSaasId());
+			entity.setSaasId(getCurUser().getSaasId());
 				</#if>
 			</#list>
 			${entityName}Service.update(entity);
@@ -238,24 +238,6 @@ public class ${entityNameFU}Controller extends BaseController {
 	}
 
 	/**
-	 * 获取${tableName}树
-	 * 
-	 * v1.0 ${author} ${updateTime}
-	 * 
-	 * @return List<Map<String,Object>>
-	 */
-	@RequestMapping("/move${entityNameFU}TreeList")
-	@ResponseBody
-	public List<Map<String, Object>> move${entityNameFU}TreeList() {
-		try {
-			return ${entityName}Service.getTreeList();
-		} catch (Exception e) {
-			log.error("获取${tableName}树错误：", e);
-			return new ArrayList<Map<String, Object>>();
-		}
-	}
-
-	/**
 	 * 完成移动${tableName}
 	 * 
 	 * v1.0 ${author} ${updateTime}
@@ -270,6 +252,9 @@ public class ${entityNameFU}Controller extends BaseController {
 		try {
 			${entityName}Service.doMove(sourceId, targetId);
 			return new PageResult(true, "移动成功");
+		} catch (MyException e) {
+			log.error("完成移动${tableName}错误：{}", e.getMessage());
+			return new PageResult(false, e.getMessage());
 		} catch (Exception e) {
 			log.error("完成移动${tableName}错误：", e);
 			return new PageResult(false, "移动失败：" + e.getMessage());
