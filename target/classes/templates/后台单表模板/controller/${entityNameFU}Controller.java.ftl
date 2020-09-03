@@ -18,7 +18,7 @@ import ${packageName}.core.entity.PageResult;
 import ${packageName}.${projectName}.entity.${entityNameFU};
 import ${packageName}.${projectName}.service.${entityNameFU}Service;
 import ${packageName}.sys.cache.DictCache;
-import ${packageName}.${projectName}.core.exception.MyException;
+import ${packageName}.core.exception.MyException;
 /**
  * ${tableName}控制层
  * 
@@ -99,13 +99,13 @@ public class ${entityNameFU}Controller extends BaseController {
 		try {
 			<#list conditionInfoList as condition>
 				<#if condition.entityCode == "updateTime">
-					${entityName}.setUpdateTime(new Date());
+			${entityName}.setUpdateTime(new Date());
 				</#if>
 				<#if condition.entityCode == "updateUserId">
-					${entityName}.setUpdateUserId(getCurUser().getId());
+			${entityName}.setUpdateUserId(getCurUser().getId());
 				</#if>
 				<#if condition.entityCode == "saasId">
-					${entityName}.setSaasId(getCurUser().getSaasId());
+			${entityName}.setSaasId(getCurUser().getSaasId());
 				</#if>
 			</#list>
 			${entityName}Service.add(${entityName});
@@ -132,7 +132,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			model.addAttribute("${entityName}", ${entityName});
 			<#list conditionInfoList as condition>
 				<#if condition.type == 7>
-					model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
+			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
 				</#if>
 			</#list>
 			return "/sys/${entityName}/${entityName}Edit";
@@ -156,17 +156,17 @@ public class ${entityNameFU}Controller extends BaseController {
 			<#list conditionInfoList as condition>
 				<#if condition.required == 1>
 					<#if condition.entityCode != "saasId" && condition.entityCode != "updateUserId" && condition.entityCode != "updateTime">
-						entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump});
+			entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump});
 					</#if>
 				</#if>
 				<#if condition.entityCode == "updateTime">
-					entity.setUpdateTime(new Date());
+			entity.setUpdateTime(new Date());
 				</#if>
 				<#if condition.entityCode == "updateUserId">
-					entity.setUpdateUserId(getCurUser().getId());
+			entity.setUpdateUserId(getCurUser().getId());
 				</#if>
 				<#if condition.entityCode == "saasId">
-					entity.setSaasId(getCurUser().getSaasId());
+			entity.setSaasId(getCurUser().getSaasId());
 				</#if>
 			</#list>
 			${entityName}Service.update(entity);
