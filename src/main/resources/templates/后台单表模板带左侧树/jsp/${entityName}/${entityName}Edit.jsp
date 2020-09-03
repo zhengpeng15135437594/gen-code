@@ -71,11 +71,13 @@
 		<label class="layui-form-label">${conditionIn.name}：</label>
 		<div class="layui-input-block">
 			<#if conditionIn.required == 1>
-				<input type="text" name="${conditionIn.entityCode}" class="layui-input" value="${"$"}{${entityName}.${conditionIn.entityCode}}" id="test-laydate-type-datetime" placeholder="yyyy-MM-dd HH:mm:ss" readonly="readonly">
+				<input type="text" class="layui-input" id="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
+				name = "${conditionIn.entityCode}" placeholder="请输入时间" lay-verify="required">
 			<#elseif conditionIn.required == 0>
-				<input type="text" name="${conditionIn.entityCode}" class="layui-input" value="${"$"}{${entityName}.${conditionIn.entityCode}}" id="test-laydate-type-datetime" placeholder="yyyy-MM-dd HH:mm:ss">
+				<input type="text" class="layui-input" id="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
+				name = "${conditionIn.entityCode}" placeholder="请输入时间">
 			</#if>
- 				</div>
+ 		</div>
 	</div>
 			</#if>
 			<#if conditionIn.type == 7>

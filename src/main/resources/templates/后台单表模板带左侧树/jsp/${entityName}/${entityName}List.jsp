@@ -244,6 +244,14 @@
 							do${entityNameFU}Edit(index);
 						},
 						success: function(layero, index){
+							<#list conditionInfoList as conditionInfo>
+								<#if conditionInfo.type == 6>
+								layui.laydate.render({
+								      elem: '#${conditionInfo.entityCode}'
+								      ,type: 'datetime'
+								    });
+								</#if>
+							</#list>
 							layui.form.render(null, "${entityName}EditFrom");
 						}
 					});
@@ -381,13 +389,5 @@
 			${entityName}Tree.reAsyncChildNodes(null, "refresh");
 		}
 		
-		<#list conditionInfoList as conditionInfo>
-		<#if conditionInfo.type == 6>
-		layui.laydate.render({
-	        elem: '#${conditionInfo.entityCode}'
-	        ,type: 'datetime'
-	      })
-		</#if>
-		</#list>
 	</script>
 </html>
