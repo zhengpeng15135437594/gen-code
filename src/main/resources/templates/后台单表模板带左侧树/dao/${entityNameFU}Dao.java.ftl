@@ -20,15 +20,34 @@ public interface ${entityNameFU}Dao extends RBaseDao<${entityNameFU}> {
 	 * @return List<Map<String,Object>>
 	 */
 	List<Map<String, Object>> getTreeList();
-
+	
 	/**
-	 * 移动${tableName} 
+	 * 获取${tableName}列表
 	 * 
 	 * v1.0 ${author} ${updateTime}
 	 * 
-	 * @param sourceId
-	 * @param targetId
-	 * void
+	 * @return List<${entityNameFU}>
 	 */
-	void doMove(Integer sourceId, Integer targetId);
+	List<${entityNameFU}> getList();
+	
+	/**
+	 * 获取${tableName}列表
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * 
+	 * @param parentId
+	 * @return List<${entityNameFU}>
+	 */
+	List<${entityNameFU}> getList(Integer parentId);
+	
+	/**
+	 * 名称是否存在
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * 
+	 * @param name
+	 * @param excludeId
+	 * @return boolean
+	 */
+	boolean existName(String name, Integer excludeId);
 }

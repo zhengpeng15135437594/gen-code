@@ -34,11 +34,11 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} = ?", ${condition.pageIn})
 					</#if>
 					<#if condition.search == 2>
-						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", "%" + ${condition.pageIn} + "%")
+						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", String.format("%%%s%%", ${condition.pageIn}))
 					</#if>
 				</#list>
-				<#list conditionInfoList as conditionIn>
-					<#if conditionIn.sort == 0>
+				<#list conditionInfoList as conditionIn> 
+					<#if conditionIn.sort == 2>
 						.addOrder("${tableAlias}.${conditionIn.code}", Order.ASC)
 					</#if>
 					<#if conditionIn.sort == 1>

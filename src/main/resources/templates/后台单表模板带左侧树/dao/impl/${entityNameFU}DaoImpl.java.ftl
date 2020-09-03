@@ -36,11 +36,11 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} = ?", ${condition.pageIn})
 					</#if>
 					<#if condition.search == 2>
-						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", "%" + ${condition.pageIn} + "%")
+						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", String.format("%%%s%%", ${condition.pageIn}))
 					</#if>
 				</#list>
 				<#list conditionInfoList as conditionIn>
-					<#if conditionIn.sort == 0>
+					<#if conditionIn.sort == 2>
 						.addOrder("${tableAlias}.${conditionIn.code}", Order.ASC)
 					</#if>
 					<#if conditionIn.sort == 1>
@@ -49,7 +49,7 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 				</#list>
 				;
 		PageOut pageOut = getListpage(sqlUtil, pageIn);
-				<#list conditionInfoList as condition>
+				<#list conditionInfoList as condition> 
 					<#if condition.type == 6>
 				HibernateUtil.formatDate(pageOut.getRows(), "${condition.code}", DateUtil.FORMAT_DATE_TIME);
 					</#if>
@@ -62,21 +62,30 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 	
 	@Override
 	public List<Map<String, Object>> getTreeList() {
-		String sql = "SELECT T.ID, T.NAME, T.PARENT_ID, T.PARENT_SUB FROM ${tableCode} T WHERE T.STATE = 1";
+		String sql = "SELECT T.ID, T.NAME, T.PARENT_ID, T.PARENT_SUB FROM ${tableCode} T WHERE T.STATE = 1 ORDER BY T.NO ASC";
 		return getMapList(sql);
 	}
-
+	
 	@Override
-	public void doMove(Integer sourceId, Integer targetId) {
-		${entityNameFU} sourceOrg = getEntity(sourceId);
-		${entityNameFU} targetOrg = getEntity(targetId);
-		sourceOrg.setParentId(targetId);
-		flush();
+	public List<${entityNameFU}> getList() {
+		String sql = "SELECT * FROM ${tableCode} WHERE STATE = 1 ";
+		return getList(sql);
+	}
+	
+	@Override
+	public List<${entityNameFU}> getList(Integer parentId) {
+		String sql = "SELECT * FROM ${tableCode} WHERE PARENT_ID = ? AND STATE = 1 ";
+		return getList(sql, new Object[] { parentId });
+	}
+	
+	@Override
+	public boolean existName(String name, Integer excludeId) {
+		if (excludeId == null) {
+			String sql = "SELECT COUNT(*) AS NUM FROM ${tableCode} WHERE NAME = ? AND STATE = 1";
+			return getCount(sql, new Object[] { name }) > 0;
+		}
 
-		String sql = "UPDATE ${tableCode} ${tableAlias}" //
-				+ "   SET ${tableAlias}.PARENT_SUB = REPLACE(${tableAlias}.PARENT_SUB, ?, ?)" + " WHERE ${tableAlias}.PARENT_SUB LIKE ?";
-		Object[] params = new Object[] { sourceOrg.getParentSub(), targetOrg.getParentSub() + sourceOrg.getId() + "_",
-				sourceOrg.getParentSub() + "%" };
-		update(sql, params);
+		String sql = "SELECT COUNT(*) AS NUM FROM ${tableCode} WHERE NAME = ? AND STATE = 1 AND ID != ?";
+		return getCount(sql, new Object[] { name, excludeId }) > 0;
 	}
 }

@@ -13,6 +13,26 @@ import ${packageName}.${projectName}.entity.${entityNameFU};
 public interface ${entityNameFU}Service extends BaseService<${entityNameFU}> {
 
 	/**
+	 * 添加${tableName}
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * 
+	 * @param org
+	 * void
+	 */
+	void addAndUpdate(${entityNameFU} ${entityName});
+
+	/**
+	 * 删除${tableName}
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * 
+	 * @param id
+	 * void
+	 */
+	void delAndUpdate(Integer id);
+
+	/**
 	 * 获取${tableName}树 
 	 * 
 	 * v1.0 ${author} ${updateTime}

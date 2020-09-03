@@ -10,21 +10,12 @@
 	<body>
 		<div class="layui-fluid">
 			<div class="layui-card">
+			<%-- ${tableName}查询条件 --%>
 				<form id="${entityName}QueryForm" class="layui-form layui-card-header layuiadmin-card-header-auto">
 					<div class="layui-form-item layui-form-item-ex">
 						<div class="layui-inline">
 							<div class="layui-input-block">
-								<input type="text" name="one" placeholder="请输入索引" class="layui-input">
-							</div>
-						</div>
-						<div class="layui-inline">
-							<div class="layui-input-block">
-								<input type="text" name="two" placeholder="请输入键" class="layui-input">
-							</div>
-						</div>
-						<div class="layui-inline">
-							<div class="layui-input-block">
-								<input type="text" name="three" placeholder="请输入值" class="layui-input">
+								<input type="text" name="one" placeholder="请输入ID" class="layui-input">
 							</div>
 						</div>
 						<div class="layui-inline">
@@ -38,14 +29,14 @@
 					</div>
 				</form>
 				<div class="layui-card-body">
-					<div id="${entityName}Toolbar" style="display: none;">
-						<div class="layui-btn-container">
-							<my:auth url="${entityName}/toAdd"><button class="layui-btn layuiadmin-btn-useradmin" onclick="to${entityNameFU}Add();">添加</button></my:auth>
-							<my:auth url="${entityName}/toEdit"><button class="layui-btn layui-btn-primary layuiadmin-btn-useradmin" onclick="to${entityNameFU}EditForBtn();">修改</button></my:auth>
-							<my:auth url="${entityName}/doDel"><button class="layui-btn layui-btn-primary layuiadmin-btn-useradmin" onclick="do${entityNameFU}DelForBtn();">删除</button></my:auth>
-						</div>
+					<div style="padding-bottom: 10px;">
+						<my:auth url="${entityName}/toAdd"><button class="layui-btn layuiadmin-btn-useradmin" onclick="to${entityNameFU}Add();">添加</button></my:auth>
 					</div>
-					<%-- 数据表格 --%>
+					<script type="text/html" id="${entityName}Toolbar">
+						<my:auth url="${entityName}/toEdit"><a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="${entityName}Edit"><i class="layui-icon layui-icon-edit"></i>修改</a></my:auth>
+						<my:auth url="${entityName}/doDel"><a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="${entityName}Del"><i class="layui-icon layui-icon-delete"></i>删除</a></my:auth>
+					</script>
+					<%-- ${tableName}数据表格 --%>
 					<table id="${entityName}Table" lay-filter="${entityName}Table"></table>
 				</div>
 			</div>
@@ -54,7 +45,6 @@
 	<%@include file="/script/myJs/tail.jspf"%>
 	<script type="text/javascript">
 		//定义变量
-		var ${entityName}TableId = "${entityName}Table";//${tableName}表格ID
 		var ${entityName}QueryForm = $("#${entityName}QueryForm"); //${tableName}查询对象
 		
 		//页面加载完毕，执行如下方法：
@@ -65,14 +55,10 @@
 		//初始化${tableName}表格
 		function init${entityNameFU}Table() {
 			layui.table.render({
-				elem : "#" + ${entityName}TableId,
+				elem : "#" + ${entityName}Table,
 				url : "${entityName}/list",
-				toolbar : "#${entityName}Toolbar",
 				cols : [[
 						<#list conditionInfoList as conditionInfo>
-						<#if conditionInfo.code == "ID">
-						{field : "ID", title : "", checkbox : true},
-						<#elseif conditionInfo.code != "ID">
 						<#if conditionInfo.web == 1>
 						<#if conditionInfo.type == 6>
 						{field : "${conditionInfo.code}_STR", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
@@ -82,11 +68,10 @@
 						</#if>
 						{field : "${conditionInfo.code}", title : "${conditionInfo.name}", align : "center"}<#sep>,</#sep>
 						</#if>
-						</#if>
 						</#list>
 						]],
 				page : true,
-				height : "full-135",
+				height : "full-180",
 				method : "post",
 				defaultToolbar : [],
 				parseData: function(${entityName}){
@@ -108,11 +93,19 @@
 			layui.table.on("rowDouble("+${entityName}TableId+")", function(obj){
 				<my:auth url="${entityName}/toEdit">to${entityNameFU}EditForDblClick(obj.data.ID);</my:auth>
 			});
+			layui.table.on("tool(${entityName}Table)", function(obj){
+				var data = obj.data;
+				if(obj.event === "${entityName}Edit") {
+					to${entityNameFU}Edit(obj.data.ID);
+				} else if(obj.event === "${entityName}Del") {
+					do${entityNameFU}Del(obj.data.ID);
+				}
+			});
 		}
 		
 		//${tableName}查询
 		function ${entityName}Query() {
-			layui.table.reload(${entityName}TableId, {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
+			layui.table.reload(${entityName}Table, {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
 		}
 	
 		//${tableName}重置
@@ -129,11 +122,10 @@
 				success : function(obj) {
 					layer.open({
 						title : "添加${tableName}",
-						type : 1,
 						area : ["800px", "500px"],
 						content : obj,
-						resize : false,
 						btn : ["添加", "取消"],
+						type : 1,
 						yes : function(index, layero){
 							do${entityNameFU}Add(index);
 						},
@@ -178,11 +170,10 @@
 				success : function(obj) {
 					layer.open({
 						title : "修改${tableName}",
-						type : 1,
 						area : ["800px", "500px"],
 						content : obj,
-						resize : false,
 						btn : ["修改", "取消"],
+						type : 1,
 						yes : function(index, layero){
 							do${entityNameFU}Edit(index);
 						},
@@ -192,22 +183,6 @@
 					});
 				}
 			});
-		}
-
-		//到达修改${tableName}页面
-		function to${entityNameFU}EditForBtn() {
-			var ${entityName}TableRows = layui.table.checkStatus(${entityName}TableId);
-			if (${entityName}TableRows.data.length != 1) {
-				layer.alert("请选择一行数据！", {"title" : "提示消息"});
-				return;
-			}
-			
-			to${entityNameFU}Edit(${entityName}TableRows.data[0].ID);
-		}
-
-		//到达修改${tableName}页面
-		function to${entityNameFU}EditForDblClick(id) {
-			to${entityNameFU}Edit(id);
 		}
 
 		//完成修改${tableName}
@@ -236,18 +211,10 @@
 
 		//完成删除${tableName}
 		function do${entityNameFU}DelForBtn() {
-			//校验数据有效性
-			var ${entityName}TableRows = layui.table.checkStatus(${entityName}TableId);
-			if (${entityName}TableRows.data.length == 0) {
-				layer.alert("请选择一行或多行数据！", {"title" : "提示消息"});
-				return;
-			}
-			
-			//删除
 			layer.confirm("确定要删除？", function(index) {
 				$.ajax({
 					url : "${entityName}/doDel",
-					data : $.fn.my.serializeField(${entityName}TableRows.data),
+					data : {id : id},
 					success : function(obj) {
 						${entityName}Query();
 						

@@ -25,7 +25,12 @@ public class ${entityNameFU} {
 	<#list ftlDetailList as ftlDetail>
 	<#if ftlDetail.fieldName == "id">
 	@Id
+	<#if ftlDetail.colType == "INT">
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	<#elseif ftlDetail.colType == "BIGINT">
+	@GeneratedValue(generator = "snowFlake")
+	@GenericGenerator(name = "snowFlake", strategy = "com.jingmax.core.hibernate.SnowFlakeGenerator")
+	</#if>
 	</#if>
 	<#if ftlDetail.colType == "DATETIME">
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -52,11 +57,12 @@ public class ${entityNameFU} {
 	public String get${ftlDetail.fieldNameFU}() {
 		return ${ftlDetail.fieldName};
 	}
-
+ 
 	public void set${ftlDetail.fieldNameFU}(String ${ftlDetail.fieldName}) {
 		this.${ftlDetail.fieldName} = ${ftlDetail.fieldName};
 	}
 	<#elseif ftlDetail.colType == "INT">
+	
 	public Integer get${ftlDetail.fieldNameFU}() {
 		return ${ftlDetail.fieldName};
 	}
@@ -65,6 +71,7 @@ public class ${entityNameFU} {
 		this.${ftlDetail.fieldName} = ${ftlDetail.fieldName};
 	}
 	<#elseif ftlDetail.colType == "DOUBLE">
+	
 	public Double get${ftlDetail.fieldNameFU}() {
 		return ${ftlDetail.fieldName};
 	}
@@ -73,6 +80,7 @@ public class ${entityNameFU} {
 		this.${ftlDetail.fieldName} = ${ftlDetail.fieldName};
 	}
 	<#elseif ftlDetail.colType == "DATETIME">
+	
 	public Date get${ftlDetail.fieldNameFU}() {
 		return ${ftlDetail.fieldName};
 	}
@@ -81,6 +89,7 @@ public class ${entityNameFU} {
 		this.${ftlDetail.fieldName} = ${ftlDetail.fieldName};
 	}
 	<#elseif ftlDetail.colType == "DECIMAL">
+	
 	public BigDecimal get${ftlDetail.fieldNameFU}() {
 		return ${ftlDetail.fieldName};
 	}
@@ -89,6 +98,7 @@ public class ${entityNameFU} {
 		this.${ftlDetail.fieldName} = ${ftlDetail.fieldName};
 	}
 	<#elseif ftlDetail.colType == "BIGINT">
+	
 	public Long get${ftlDetail.fieldNameFU}() {
 		return ${ftlDetail.fieldName};
 	}
