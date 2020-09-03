@@ -51,4 +51,13 @@ public interface ${entityNameFU}Service extends BaseService<${entityNameFU}> {
 	 * void
 	 */
 	void doMove(Integer sourceId, Integer targetId);
+	
+	/**
+	 * 名称是否重复
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * @param ${entityName}
+	 * @return boolean
+	 */
+	boolean existName(${entityNameFU} ${entityName});
 }
