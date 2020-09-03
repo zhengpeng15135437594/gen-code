@@ -56,49 +56,52 @@ import freemarker.template.Template;
 @RequestMapping("/home")
 public class HomeController {
 	private static final Logger log = LoggerFactory.getLogger(HomeController.class);
-    private static HashMap<String, String> fromMap;
-	
+	private static HashMap<String, String> fromMap;
+
 	private static final String sysLoginName = "admin";
-	
+
 	/**
-	  * 登录页面
-	  * 
-	  * v1.0 zhengpeng 2020年8月28日下午4:08:45
-	  * @return String
-	  */
-	 @RequestMapping("/login")
-	 public String login() {
-	  try {
-	   return "/login";
-	  } catch (Exception e) {
-	   log.error("登录页错误：", e);
-	   return "/login";
-	  }
-	 }
-	 
-	 /**
-	  * 登录
-	  * 
-	  * v1.0 zhengpeng 2020年8月28日下午4:08:45
-	  * @return String
-	  */
-	 @RequestMapping("/doLogin")
-	 public String doLogin(String loginName, String password) {
-	  try {
-	   if(sysLoginName.equals(loginName) && PwdUtil.getPwd().equals(password)){
-			return "/index";
-	   }
-	  } catch (Exception e) {
-	   log.error("登录页错误：", e);
-	   return "/login";
-	  }
-	  return "/login";
-	 }
-	
+	 * 登录页面
+	 * 
+	 * v1.0 zhengpeng 2020年8月28日下午4:08:45
+	 * 
+	 * @return String
+	 */
+	@RequestMapping("/login")
+	public String login() {
+		try {
+			return "/login";
+		} catch (Exception e) {
+			log.error("登录页错误：", e);
+			return "/login";
+		}
+	}
+
+	/**
+	 * 登录
+	 * 
+	 * v1.0 zhengpeng 2020年8月28日下午4:08:45
+	 * 
+	 * @return String
+	 */
+	@RequestMapping("/doLogin")
+	public String doLogin(String loginName, String password) {
+		try {
+			if (sysLoginName.equals(loginName) && PwdUtil.getPwd().equals(password)) {
+				return "/index";
+			}
+		} catch (Exception e) {
+			log.error("登录页错误：", e);
+			return "/login";
+		}
+		return "/login";
+	}
+
 	/**
 	 * 默认首页
 	 * 
 	 * v1.0 zhanghc 2019年4月20日下午4:08:45
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/index")
@@ -110,11 +113,12 @@ public class HomeController {
 			return "/index";
 		}
 	}
-	
+
 	/**
 	 * 到达列表页面
 	 * 
 	 * v1.0 zhanghc 2019年4月20日下午4:08:45
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/toList")
@@ -126,17 +130,17 @@ public class HomeController {
 			List<Object> list = new ArrayList<Object>();
 			if (files != null && files.length > 0) {
 				for (int i = 1; files.length >= i; i++) {
-					Map<String , Object> map = new HashMap<String , Object>();
+					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("id", i);
-					map.put("path", files[i-1].getPath());
-					map.put("text", files[i-1].getName());
+					map.put("path", files[i - 1].getPath());
+					map.put("text", files[i - 1].getName());
 					list.add(map);
 				}
 			}
 			model.addAttribute("files", list);
-			if(fromMap != null){
+			if (fromMap != null) {
 				model.addAttribute("from", fromMap);
-			}else{
+			} else {
 				fromMap = new HashMap<String, String>();
 				fromMap.put("dbAddr", "");
 				fromMap.put("dbUserName", "");
@@ -151,9 +155,10 @@ public class HomeController {
 			return "/list";
 		}
 	}
+
 	/**
-	 * 到达修改密码页面 
-	 * v1.0 peng_zheng 2020年9月1日上午9:35:30
+	 * 到达修改密码页面 v1.0 peng_zheng 2020年9月1日上午9:35:30
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/toPwdUpdate")
@@ -170,6 +175,7 @@ public class HomeController {
 	 * 完成修改密码
 	 * 
 	 * v1.0 peng_zheng 2020年9月1日上午9:35:30
+	 * 
 	 * @param oldPwd
 	 * @param newPwd
 	 * @return PageResult
@@ -178,13 +184,13 @@ public class HomeController {
 	@ResponseBody
 	public PageResult pubDoPwdUpdate(String oldPwd, String newPwd) {
 		try {
-			if(!ValidateUtil.isValid(oldPwd)){
+			if (!ValidateUtil.isValid(oldPwd)) {
 				throw new RuntimeException("参数错误：oldPwd");
 			}
-			if(!ValidateUtil.isValid(newPwd)){
+			if (!ValidateUtil.isValid(newPwd)) {
 				throw new RuntimeException("参数错误：newPwd");
 			}
-			if(!PwdUtil.getPwd().equals(oldPwd)){
+			if (!PwdUtil.getPwd().equals(oldPwd)) {
 				throw new RuntimeException("原密码错误");
 			}
 			PwdUtil.updatePwd(oldPwd, newPwd);
@@ -194,10 +200,12 @@ public class HomeController {
 			return new PageResult(false, "修改失败：" + e.getMessage());
 		}
 	}
+
 	/**
 	 * 模板列表
 	 * 
 	 * v1.0 zhanghc 2019年6月27日上午8:35:50
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/templateList")
@@ -207,8 +215,8 @@ public class HomeController {
 			String dir = HomeController.class.getResource("/").toURI().getPath() + "/templates/";
 			File file = new File(dir);
 			List<Map<String, Object>> list = new ArrayList<>();
-			for(File file2 : file.listFiles()){
-				if(file2.isDirectory()){
+			for (File file2 : file.listFiles()) {
+				if (file2.isDirectory()) {
 					Map<String, Object> map = new HashMap<>();
 					map.put("id", file2.getName());
 					map.put("text", file2.getName());
@@ -221,30 +229,32 @@ public class HomeController {
 			return new ArrayList<>();
 		}
 	}
-	
+
 	/**
 	 * 数据库列表
 	 * 
 	 * v1.0 zhanghc 2019年6月27日上午8:35:50
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/dbList")
 	@ResponseBody
 	public PageResult dbList(String dbAddr, String dbUserName, String dbPwd) {
 		try {
-			if(!ValidateUtil.isValid(dbAddr)){
+			if (!ValidateUtil.isValid(dbAddr)) {
 				throw new RuntimeException("参数无效：addr");
 			}
-			if(!ValidateUtil.isValid(dbUserName)){
+			if (!ValidateUtil.isValid(dbUserName)) {
 				throw new RuntimeException("参数无效：dbUserName");
 			}
-			if(!ValidateUtil.isValid(dbPwd)){
+			if (!ValidateUtil.isValid(dbPwd)) {
 				throw new RuntimeException("参数无效：dbPwd");
 			}
-			dbAddr = dbAddr.contains(":") ? dbAddr : dbAddr + ":3306"; 
-			
+			dbAddr = dbAddr.contains(":") ? dbAddr : dbAddr + ":3306";
+
 			String driverName = "com.mysql.cj.jdbc.Driver";
-			String jdbcUrl = "jdbc:mysql://"+dbAddr+"?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
+			String jdbcUrl = "jdbc:mysql://" + dbAddr
+					+ "?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
 			Connection connection = DBUtil.getConnection(driverName, jdbcUrl, dbUserName, dbPwd);
 			DatabaseMetaData metaData = connection.getMetaData();
 			ResultSet resultSet = metaData.getCatalogs();
@@ -262,37 +272,39 @@ public class HomeController {
 			return new PageResult(false, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 列表
 	 * 
 	 * v1.0 zhanghc 2019年6月27日上午8:35:50
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/dbTableList")
 	@ResponseBody
 	public PageResult dbTableList(String dbAddr, String dbUserName, String dbPwd, String dbInstanceName) {
 		try {
-			if(!ValidateUtil.isValid(dbAddr)){
+			if (!ValidateUtil.isValid(dbAddr)) {
 				throw new RuntimeException("参数无效：ip");
 			}
-			if(!ValidateUtil.isValid(dbUserName)){
+			if (!ValidateUtil.isValid(dbUserName)) {
 				throw new RuntimeException("参数无效：userName");
 			}
-			if(!ValidateUtil.isValid(dbPwd)){
+			if (!ValidateUtil.isValid(dbPwd)) {
 				throw new RuntimeException("参数无效：password");
 			}
-			if(!ValidateUtil.isValid(dbInstanceName)){
+			if (!ValidateUtil.isValid(dbInstanceName)) {
 				throw new RuntimeException("参数无效：instanceName");
 			}
-			dbAddr = dbAddr.contains(":") ? dbAddr : dbAddr + ":3306"; 
-			
+			dbAddr = dbAddr.contains(":") ? dbAddr : dbAddr + ":3306";
+
 			String driverName = "com.mysql.cj.jdbc.Driver";
-			String jdbcUrl = "jdbc:mysql://"+dbAddr+"?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
+			String jdbcUrl = "jdbc:mysql://" + dbAddr
+					+ "?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
 			Connection connection = DBUtil.getConnection(driverName, jdbcUrl, dbUserName, dbPwd);
 			DatabaseMetaData metaData = connection.getMetaData();
 			ResultSet resultSet = metaData.getTables(dbInstanceName, null, null, new String[] { "TABLE" });
-			
+
 			List<Map<String, Object>> list = new ArrayList<>();
 			while (resultSet.next()) {
 				Map<String, Object> map = new HashMap<>();
@@ -307,63 +319,71 @@ public class HomeController {
 			return new PageResult(false, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 实体类名称
 	 * 
 	 * v1.0 zhanghc 2019年6月27日上午8:35:50
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/dbTableEntity")
 	@ResponseBody
 	public PageResult dbTableEntity(String dbTableEntity) {
 		try {
-			if(!ValidateUtil.isValid(dbTableEntity)){
+			if (!ValidateUtil.isValid(dbTableEntity)) {
 				throw new RuntimeException("参数无效：dbTableEntity");
 			}
 			String humpStr = StringUtil.toHumpStr(dbTableEntity.substring(dbTableEntity.indexOf("_") + 1), "_", false);
-			//String humpStr2 = StringUtil.toHumpStr(dbTableEntity.substring(dbTableEntity.indexOf("_") + 1), "_", true);
+			// String humpStr2 =
+			// StringUtil.toHumpStr(dbTableEntity.substring(dbTableEntity.indexOf("_")
+			// + 1), "_", true);
 			return new PageResultEx(true, "查询成功", humpStr);
 		} catch (Exception e) {
 			log.error("列表错误：", e);
 			return new PageResult(false, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 生成表单
 	 * 
 	 * v1.0 zhanghc 2019年6月27日上午8:35:50
+	 * 
 	 * @return String
 	 */
 	@RequestMapping("/createFrom")
 	@ResponseBody
-	public PageResult createFrom(String dbAddr, String dbUserName, String dbPwd, String dbName, String dbTableName, String realmName, String projectName, String author) {
+	public PageResult createFrom(String dbAddr, String dbUserName, String dbPwd, String dbName, String dbTableName,
+			String realmName, String projectName, String author) {
 		try {
-			if(!ValidateUtil.isValid(dbTableName)){
+			if (!ValidateUtil.isValid(dbTableName)) {
 				throw new RuntimeException("参数无效：dbTableName");
 			}
-			
+
 			fromMap.put("dbAddr", dbAddr);
 			fromMap.put("dbUserName", dbUserName);
 			fromMap.put("realmName", realmName);
 			fromMap.put("projectName", projectName);
 			fromMap.put("author", author);
-			
+
 			String driverName = "com.mysql.cj.jdbc.Driver";
-			String jdbcUrl = "jdbc:mysql://"+dbAddr+"?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
-			Connection connection = DBUtil.getConnection(driverName, jdbcUrl, dbUserName, dbPwd);			
+			String jdbcUrl = "jdbc:mysql://" + dbAddr
+					+ "?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
+			Connection connection = DBUtil.getConnection(driverName, jdbcUrl, dbUserName, dbPwd);
 			DBTableInfo tableInfo = DBUtil.parseMetaData(connection, dbName, dbTableName);
-			
-	    	Iterator<DBColInfo> iterator = tableInfo.getColInfoList().iterator();
-	    	while (iterator.hasNext()) {
-	    		DBColInfo dBColInfo = iterator.next();
-				if(dBColInfo.getCode().equals("ID")){
+
+			Iterator<DBColInfo> iterator = tableInfo.getColInfoList().iterator();
+			while (iterator.hasNext()) {
+				DBColInfo dBColInfo = iterator.next();
+				if (dBColInfo.getCode().equals("ID")) {
 					iterator.remove();
 					continue;
 				}
-				/*String humpStr = StringUtil.toHumpStr(dBColInfo.getCode(), "_", true);
-				dBColInfo.setCode(humpStr);*/
+				/*
+				 * String humpStr = StringUtil.toHumpStr(dBColInfo.getCode(),
+				 * "_", true); dBColInfo.setCode(humpStr);
+				 */
 			}
 			return new PageResultEx(true, "查询成功", tableInfo.getColInfoList());
 		} catch (Exception e) {
@@ -373,17 +393,18 @@ public class HomeController {
 	}
 
 	/**
-	 * 下载文件
-	 * v1.0 peng_zheng 2020年8月31日下午5:49:03
+	 * 下载文件 v1.0 peng_zheng 2020年8月31日下午5:49:03
+	 * 
 	 * @param path
-	 * @param response void
+	 * @param response
+	 *            void
 	 */
 	@RequestMapping("/downLoad")
 	public void downLoad(String path, HttpServletResponse response) {
-		
+
 		File file = new File("d:/6d2798e2d86f426b834703be1bc2e859/yasuo/" + path);
 		System.out.println("d:/6d2798e2d86f426b834703be1bc2e859/yasuo/" + path);
-		if(!file.getParentFile().exists()){
+		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdirs();
 		}
 		OutputStream output = null;
@@ -393,13 +414,13 @@ public class HomeController {
 			response.setContentType("application/force-download");
 			output = response.getOutputStream();
 			FileUtils.copyFile(file, output);
-			} catch (Exception e) {
-				log.error("完成下载附件失败：", e);
-			} finally {
-				IOUtils.closeQuietly(output);
-			}
+		} catch (Exception e) {
+			log.error("完成下载附件失败：", e);
+		} finally {
+			IOUtils.closeQuietly(output);
+		}
 	}
-	
+
 	/**
 	 * 生产文件
 	 * 
@@ -408,56 +429,65 @@ public class HomeController {
 	 */
 	@RequestMapping("/createFile")
 	@ResponseBody
-	public Map<String,String> createFile(String dbAddr, String dbUserName, String dbPwd, String instanceName, 
-			String tableName, String realmName, String projectName, String author, String entityName, String searchJson, String templateName, HttpServletResponse response) { // realmName  企业域名    author  作者   projectName 子模块
+	public Map<String, String> createFile(String dbAddr, String dbUserName, String dbPwd, String instanceName,
+			String tableName, String realmName, String projectName, String author, String entityName, String searchJson,
+			String templateName, HttpServletResponse response) { // realmName
+																	// 企业域名
+																	// author 作者
+																	// projectName
+																	// 子模块
 		Connection connection = null;
-		Map<String,String> map = new HashMap<>();
+		Map<String, String> map = new HashMap<>();
 		try {
-			if(!ValidateUtil.isValid(dbAddr)){
+			if (!ValidateUtil.isValid(dbAddr)) {
 				throw new RuntimeException("参数无效：dbAddr");
 			}
-			if(!ValidateUtil.isValid(dbUserName)){
+			if (!ValidateUtil.isValid(dbUserName)) {
 				throw new RuntimeException("参数无效：dbUserName");
 			}
-			if(!ValidateUtil.isValid(dbPwd)){
+			if (!ValidateUtil.isValid(dbPwd)) {
 				throw new RuntimeException("参数无效：dbPwd");
 			}
-			if(!ValidateUtil.isValid(instanceName)){
+			if (!ValidateUtil.isValid(instanceName)) {
 				throw new RuntimeException("参数无效：instanceName");
 			}
-			dbAddr = dbAddr.contains(":") ? dbAddr : dbAddr + ":3306"; 
-			List<ConditionInfo> list = JsonUtil.stringToJson(searchJson);//将json转换为list
+			dbAddr = dbAddr.contains(":") ? dbAddr : dbAddr + ":3306";
+			List<ConditionInfo> list = JsonUtil.stringToJson(searchJson);// 将json转换为list
 			List<ConditionInfo> conditionInfoList = setPageIn(list);
-			
+
 			String driverName = "com.mysql.cj.jdbc.Driver";
-			String jdbcUrl = "jdbc:mysql://"+dbAddr+"?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
+			String jdbcUrl = "jdbc:mysql://" + dbAddr
+					+ "?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useInformationSchema=true";
 			connection = DBUtil.getConnection(driverName, jdbcUrl, dbUserName, dbPwd);
 			DBTableInfo tableInfo = DBUtil.parseMetaData(connection, instanceName, tableName);
-			
+
 			String packageName = parseRealmName(realmName);
-			FtlInfo ftlInfo = parseDBTableInfo(tableInfo, packageName, projectName, entityName, author, conditionInfoList);
-			
+			FtlInfo ftlInfo = parseDBTableInfo(tableInfo, packageName, projectName, entityName, author,
+					conditionInfoList);
+
 			TemplateUtil.setDir(templateName);
 			File templatePath = new File(TemplateUtil.getBaseDir() + templateName);
-			
+
 			Collection<File> listFiles = FileUtils.listFiles(templatePath, null, true);
 			File delFile = new File("d:/6d2798e2d86f426b834703be1bc2e859/");
 			FileUtils.deleteDirectory(delFile);
-			
+
 			for (File file : listFiles) {
 				String templatePathStr = file.getAbsolutePath();
-				templatePathStr = templatePathStr.endsWith(".ftl") ? templatePathStr.substring(0, templatePathStr.length() - 4) : templatePathStr; 
+				templatePathStr = templatePathStr.endsWith(".ftl")
+						? templatePathStr.substring(0, templatePathStr.length() - 4) : templatePathStr;
 				Template stringTemplate = TemplateUtil.getStringTemplate(templatePathStr);
 				StringWriter stringWriter = new StringWriter();
 				stringTemplate.process(ftlInfo, stringWriter);
-				
+
 				Template template = TemplateUtil.getTemplate(file.getName());
 				String subPath = stringWriter.toString().substring(templatePath.getAbsolutePath().length());
-				File outFile = new File("d:/6d2798e2d86f426b834703be1bc2e859/shengcheng/" + packageName.replaceAll("\\.", "/") + "/" + projectName + "/" + subPath);
-				if(!outFile.getParentFile().exists()){
+				File outFile = new File("d:/6d2798e2d86f426b834703be1bc2e859/shengcheng/"
+						+ packageName.replaceAll("\\.", "/") + "/" + projectName + "/" + subPath);
+				if (!outFile.getParentFile().exists()) {
 					outFile.getParentFile().mkdirs();
 				}
-				
+
 				Writer out = new FileWriter(outFile);
 				template.process(ftlInfo, out);
 				IOUtils.closeQuietly(out);
@@ -465,11 +495,11 @@ public class HomeController {
 			String fileName = UUID.randomUUID().toString().replaceAll("-", "") + ".zip";
 			map.put("path", fileName);
 			File file = new File("d:/6d2798e2d86f426b834703be1bc2e859/yasuo/" + fileName);
-			if(!file.getParentFile().exists()){
+			if (!file.getParentFile().exists()) {
 				file.getParentFile().mkdirs();
 			}
 			ZipUtil.doZip("d:/6d2798e2d86f426b834703be1bc2e859/shengcheng", file);
-			
+
 		} catch (Exception e) {
 			DBUtil.close(connection);
 			log.error("初始化错误：", e);
@@ -483,26 +513,29 @@ public class HomeController {
 		ArrayUtils.reverse(split);
 		return StringUtils.join(split, ".");
 	}
-	
-	private static FtlInfo parseDBTableInfo(DBTableInfo tableInfo, String packageName, String projectName, String entityName, String author, List<ConditionInfo> conditionInfoList) {
+
+	private static FtlInfo parseDBTableInfo(DBTableInfo tableInfo, String packageName, String projectName,
+			String entityName, String author, List<ConditionInfo> conditionInfoList) {
 		FtlInfo ftlInfo = new FtlInfo();
 		ftlInfo.setTableCode(tableInfo.getCode());
 		ftlInfo.setTableName(tableInfo.getName());
 		ftlInfo.setPackageName(packageName);
 		ftlInfo.setProjectName(projectName);
-		if(ValidateUtil.isValid(entityName)){
+		if (ValidateUtil.isValid(entityName)) {
 			ftlInfo.setEntityNameFU(StringUtil.capitalize(entityName));
 			ftlInfo.setEntityName(StringUtil.uncapitalize(entityName));
-		}else{
-			ftlInfo.setEntityNameFU(StringUtil.toHumpStr(tableInfo.getCode().substring(tableInfo.getCode().indexOf("_") + 1), "_", false));
-			ftlInfo.setEntityName(StringUtil.toHumpStr(tableInfo.getCode().substring(tableInfo.getCode().indexOf("_") + 1), "_", true));
+		} else {
+			ftlInfo.setEntityNameFU(StringUtil
+					.toHumpStr(tableInfo.getCode().substring(tableInfo.getCode().indexOf("_") + 1), "_", false));
+			ftlInfo.setEntityName(StringUtil
+					.toHumpStr(tableInfo.getCode().substring(tableInfo.getCode().indexOf("_") + 1), "_", true));
 		}
 		ftlInfo.setAuthor(author);
 		ftlInfo.setUpdateTime(DateUtil.getFormatDateTime());
 		ftlInfo.setFilePath(packageName.replaceAll("\\.", "/") + "/");
-		
+
 		List<FtlDetail> ftlDetailList = new ArrayList<>();
-		for(DBColInfo dBColInfo : tableInfo.getColInfoList()){
+		for (DBColInfo dBColInfo : tableInfo.getColInfoList()) {
 			FtlDetail ftlDetail = new FtlDetail();
 			ftlDetail.setColCode(dBColInfo.getCode());
 			ftlDetail.setColName(dBColInfo.getName());
@@ -516,13 +549,14 @@ public class HomeController {
 		ftlInfo.setFtlDetailList(ftlDetailList);
 		return ftlInfo;
 	}
+
 	/**
-	 * 设置查询条件pageIn
-	 * v1.0 peng_zheng 2020-8-31上午05:26:27
+	 * 设置查询条件pageIn v1.0 peng_zheng 2020-8-31上午05:26:27
+	 * 
 	 * @param conditionInfoList
 	 * @return List<ConditionInfo>
 	 */
-	private static List<ConditionInfo> setPageIn(List<ConditionInfo> conditionInfoList){
+	private static List<ConditionInfo> setPageIn(List<ConditionInfo> conditionInfoList) {
 		Map<Integer, String> map = new HashMap<>();
 		map.put(2, "pageIn.getTwo()");
 		map.put(3, "pageIn.getThree()");
@@ -533,13 +567,13 @@ public class HomeController {
 		map.put(8, "pageIn.getEight()");
 		map.put(9, "pageIn.getNine()");
 		map.put(10, "pageIn.getTen()");
-		
+
 		Integer index = 2;
-		
-		for(ConditionInfo conditionInfo : conditionInfoList){
-			if(conditionInfo.getSearch() != 0){
+
+		for (ConditionInfo conditionInfo : conditionInfoList) {
+			if (conditionInfo.getSearch() != 0) {
 				conditionInfo.setPageIn(map.get(index));
-				index ++;
+				index++;
 			}
 		}
 		return conditionInfoList;
