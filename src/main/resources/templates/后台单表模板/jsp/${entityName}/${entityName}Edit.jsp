@@ -74,11 +74,11 @@
 		<label class="layui-form-label">${conditionIn.name}：</label>
 		<div class="layui-input-block">
 			<#if conditionIn.required == 1>
-				<input type="text" class="layui-input" id="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
-				name = "${conditionIn.entityCode}" placeholder="请输入时间" lay-verify="required">
+				<input type="text" name = "${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
+				 class="layui-input" id="${conditionIn.entityCode}" placeholder="请输入时间" lay-verify="required">
 			<#elseif conditionIn.required == 0>
-				<input type="text" class="layui-input" id="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
-				name = "${conditionIn.entityCode}" placeholder="请输入时间">
+				<input type="text" name = "${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
+				 class="layui-input" id="${conditionIn.entityCode}" placeholder="请输入时间">
 			</#if>
  		</div>
 	</div>
