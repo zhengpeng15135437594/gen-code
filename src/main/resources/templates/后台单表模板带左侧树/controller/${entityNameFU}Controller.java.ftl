@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${packageName}.core.controller.BaseController;
 import ${packageName}.core.entity.PageIn;
+import ${packageName}.core.entity.PageResult;
+import ${packageName}.core.entity.PageResultEx;
+import ${packageName}.core.entity.PageIn;
 import ${packageName}.core.entity.PageOut;
 import ${packageName}.core.entity.PageResult;
 import ${packageName}.${projectName}.entity.${entityNameFU};
@@ -55,16 +58,16 @@ public class ${entityNameFU}Controller extends BaseController {
 	 * 
 	 * v1.0 ${author} ${updateTime}
 	 * 
-	 * @return List<Map<String,Object>>
+	 * @return PageResult
 	 */
 	@RequestMapping("/treeList")
 	@ResponseBody
-	public List<Map<String, Object>> treeList() {
+	public PageResult treeList() {
 		try {
-			return ${entityName}Service.getTreeList();
+			return new PageResultEx(true, "查询成功", ${entityName}Service.getTreeList());
 		} catch (Exception e) {
 			log.error("${tableName}树错误：", e);
-			return new ArrayList<Map<String, Object>>();
+			return new PageResult(false, "查询失败");
 		}
 	}
 	
@@ -72,16 +75,16 @@ public class ${entityNameFU}Controller extends BaseController {
 	 * ${tableName}列表
 	 * 
 	 * v1.0 ${author} ${updateTime}
-	 * @return pageOut
+	 * @return PageResult
 	 */
 	@RequestMapping("/list")
 	@ResponseBody
-	public PageOut list(PageIn pageIn) {
+	public PageResult list(PageIn pageIn) {
 		try {
-			return ${entityName}Service.getListpage(pageIn);
+			return new PageResultEx(true, "查询成功", ${entityName}Service.getListpage(pageIn));
 		} catch (Exception e) {
 			log.error("${tableName}列表错误：", e);
-			return new PageOut();
+			return new PageResult(false, "查询失败");
 		}
 	}
 	
@@ -110,7 +113,7 @@ public class ${entityNameFU}Controller extends BaseController {
 	 * 完成添加${tableName}
 	 * 
 	 * v1.0 ${author} ${updateTime}
-	 * @return pageOut
+	 * @return PageResult
 	 */
 	@RequestMapping("/doAdd")
 	@ResponseBody
@@ -134,7 +137,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(false, "添加失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成添加${tableName}错误：", e);
-			return new PageResult(false, "添加失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 	
@@ -195,7 +198,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(false, "修改失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成修改${tableName}错误：", e);
-			return new PageResult(false, "修改失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 	
@@ -216,7 +219,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(false, "删除失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成删除${tableName}错误：", e);
-			return new PageResult(false, "删除失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 	
@@ -257,7 +260,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(false, e.getMessage());
 		} catch (Exception e) {
 			log.error("完成移动${tableName}错误：", e);
-			return new PageResult(false, "移动失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 

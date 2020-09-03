@@ -57,12 +57,12 @@ public class ${entityNameFU}Controller extends BaseController {
 	 */
 	@RequestMapping("/list")
 	@ResponseBody
-	public PageOut list(PageIn pageIn) {
+	public PageResult list(PageIn pageIn) {
 		try {
-			return ${entityName}Service.getListpage(pageIn);
+			return new PageResultEx(true, "查询成功", ${entityName}Service.getListpage(pageIn));
 		} catch (Exception e) {
 			log.error("${tableName}列表错误：", e);
-			return new PageOut();
+			return new PageResult(false, "查询失败");
 		}
 	}
 	
@@ -115,7 +115,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(false, "添加失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成添加${tableName}错误：", e);
-			return new PageResult(false, "添加失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 	
@@ -176,7 +176,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(false, "修改失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成修改${tableName}错误：", e);
-			return new PageResult(false, "修改失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 	
@@ -197,7 +197,7 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(false, "删除失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成删除${tableName}错误：", e);
-			return new PageResult(false, "删除失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 
