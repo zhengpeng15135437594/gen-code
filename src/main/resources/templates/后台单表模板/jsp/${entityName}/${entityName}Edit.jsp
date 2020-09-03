@@ -70,7 +70,7 @@
 	</div>
 			</#if>
 			<#if conditionIn.type == 6>
-	<div class="layui-form-item">
+		<div class="layui-form-item">
 		<label class="layui-form-label">${conditionIn.name}：</label>
 		<div class="layui-input-block">
 			<#if conditionIn.required == 1>

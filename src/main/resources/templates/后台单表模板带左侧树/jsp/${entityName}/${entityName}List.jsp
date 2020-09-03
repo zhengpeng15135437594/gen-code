@@ -246,10 +246,10 @@
 						success: function(layero, index){
 							<#list conditionInfoList as conditionInfo>
 								<#if conditionInfo.type == 6>
-								layui.laydate.render({
-								      elem: '#${conditionInfo.entityCode}'
-								      ,type: 'datetime'
-								    });
+									layui.laydate.render({
+									      elem: '#${conditionInfo.entityCode}'
+									      ,type: 'datetime'
+									    });
 								</#if>
 							</#list>
 							layui.form.render(null, "${entityName}EditFrom");
