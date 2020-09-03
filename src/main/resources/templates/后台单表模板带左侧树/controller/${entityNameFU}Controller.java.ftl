@@ -18,6 +18,7 @@ import ${packageName}.core.entity.PageResult;
 import ${packageName}.${projectName}.entity.${entityNameFU};
 import ${packageName}.${projectName}.service.${entityNameFU}Service;
 import ${packageName}.sys.cache.DictCache;
+import ${packageName}.${projectName}.core.exception.MyException;
 
 /**
  * ${tableName}控制层
@@ -50,23 +51,6 @@ public class ${entityNameFU}Controller extends BaseController {
 	}
 	
 	/**
-	 * ${tableName}列表
-	 * 
-	 * v1.0 ${author} ${updateTime}
-	 * @return pageOut
-	 */
-	@RequestMapping("/list")
-	@ResponseBody
-	public PageOut list(PageIn pageIn) {
-		try {
-			return ${entityName}Service.getListpage(pageIn);
-		} catch (Exception e) {
-			log.error("${tableName}列表错误：", e);
-			return new PageOut();
-		}
-	}
-	
-	/**
 	 * ${tableName}树
 	 * 
 	 * v1.0 ${author} ${updateTime}
@@ -81,6 +65,23 @@ public class ${entityNameFU}Controller extends BaseController {
 		} catch (Exception e) {
 			log.error("${tableName}树错误：", e);
 			return new ArrayList<Map<String, Object>>();
+		}
+	}
+	
+	/**
+	 * ${tableName}列表
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * @return pageOut
+	 */
+	@RequestMapping("/list")
+	@ResponseBody
+	public PageOut list(PageIn pageIn) {
+		try {
+			return ${entityName}Service.getListpage(pageIn);
+		} catch (Exception e) {
+			log.error("${tableName}列表错误：", e);
+			return new PageOut();
 		}
 	}
 	
@@ -115,8 +116,22 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doAdd(${entityNameFU} ${entityName}) {
 		try {
+			<#list conditionInfoList as condition>
+				<#if condition.entityCode == "updateTime">
+					${entityName}.setUpdateTime(new Date());
+				</#if>
+				<#if condition.entityCode == "updateUserId">
+					${entityName}.setUpdateUserId(getCurUser().getId());
+				</#if>
+				<#if condition.entityCode == "saasId">
+					${entityName}.setSaasId(getCurUser().getSaasId());
+				</#if>
+			</#list>
 			${entityName}Service.add(${entityName});
 			return new PageResult(true, "添加成功");
+		} catch (MyException e) {
+			log.error("完成添加${tableName}错误：{}", e.getMessage());
+			return new PageResult(false, "添加失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成添加${tableName}错误：", e);
 			return new PageResult(false, "添加失败：" + e.getMessage());
@@ -156,8 +171,28 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doEdit(${entityNameFU} ${entityName}) {
 		try {
-			${entityName}Service.update(${entityName});
+			${entityNameFU} entity = ${entityName}Service.getEntity(${entityName}.id);
+			<#list conditionInfoList as condition>
+				<#if condition.required == 1>
+					<#if condition.entityCode != "saasId" && condition.entityCode != "updateUserId" && condition.entityCode != "updateTime">
+						entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump});
+					</#if>
+				</#if>
+				<#if condition.entityCode == "updateTime">
+					entity.setUpdateTime(new Date());
+				</#if>
+				<#if condition.entityCode == "updateUserId">
+					entity.setUpdateUserId(getCurUser().getId());
+				</#if>
+				<#if condition.entityCode == "saasId">
+					entity.setSaasId(getCurUser().getSaasId());
+				</#if>
+			</#list>
+			${entityName}Service.update(entity);
 			return new PageResult(true, "修改成功");
+		} catch (MyException e) {
+			log.error("完成修改${tableName}错误：{}", e.getMessage());
+			return new PageResult(false, "修改失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成修改${tableName}错误：", e);
 			return new PageResult(false, "修改失败：" + e.getMessage());
@@ -172,10 +207,13 @@ public class ${entityNameFU}Controller extends BaseController {
 	 */
 	@RequestMapping("/doDel")
 	@ResponseBody
-	public PageResult doDel(Integer[] ids) {
+	public PageResult doDel(Integer id) {
 		try {
-			${entityName}Service.del(ids);
+			${entityName}Service.del(id);
 			return new PageResult(true, "删除成功");
+		} catch (MyException e) {
+			log.error("完成删除${tableName}错误：{}", e.getMessage());
+			return new PageResult(false, "删除失败：" + e.getMessage());
 		} catch (Exception e) {
 			log.error("完成删除${tableName}错误：", e);
 			return new PageResult(false, "删除失败：" + e.getMessage());

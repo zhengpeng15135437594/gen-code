@@ -9,7 +9,9 @@ public class ConditionInfo {
 	// 数据库字段
 	private String code;
 	// 实体字段
-	private String entityCode;  
+	private String entityCode;
+	// 实体字段
+	private String codeToHump;
 	// 字段名称
 	private String name;
 	// 字段页面显示类型
@@ -51,6 +53,14 @@ public class ConditionInfo {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getCodeToHump() {
+		return codeToHump;
+	}
+
+	public void setCodeToHump(String codeToHump) {
+		this.codeToHump = codeToHump;
 	}
 
 	public Integer getType() {

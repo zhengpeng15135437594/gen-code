@@ -38,10 +38,10 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 					</#if>
 				</#list>
 				<#list conditionInfoList as conditionIn>
-					<#if conditionIn.sort == 1>
+					<#if conditionIn.sort == 0>
 						.addOrder("${tableAlias}.${conditionIn.code}", Order.ASC)
 					</#if>
-					<#if conditionIn.sort == 2>
+					<#if conditionIn.sort == 1>
 						.addOrder("${tableAlias}.${conditionIn.code}", Order.DESC)
 					</#if>
 				</#list>
