@@ -53,7 +53,7 @@
 		//初始化${tableName}表格
 		function init${entityNameFU}Table() {
 			layui.table.render({
-				elem : "#" + ${entityName}Table,
+				elem : "#${entityName}Table",
 				url : "${entityName}/list",
 				cols : [[
 						<#list conditionInfoList as conditionInfo>
@@ -89,7 +89,7 @@
 					statusCode : true
 				}
 			});
-			layui.table.on("rowDouble("+${entityName}TableId+")", function(obj){
+			layui.table.on("rowDouble(${entityName}Table)", function(obj){
 				<my:auth url="${entityName}/toEdit">to${entityNameFU}EditForDblClick(obj.data.ID);</my:auth>
 			});
 			layui.table.on("tool(${entityName}Table)", function(obj){
@@ -179,10 +179,7 @@
 						success: function(layero, index){
 							<#list conditionInfoList as conditionInfo>
 								<#if conditionInfo.type == 6>
-									layui.laydate.render({
-									      elem: '#${conditionInfo.entityCode}'
-									      ,type: 'datetime'
-									    });
+							layui.laydate.render({elem: "#${conditionInfo.entityCode}",type: "datetime"});
 								</#if>
 							</#list>
 							layui.form.render(null, "${entityName}EditFrom");
