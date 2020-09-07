@@ -63,7 +63,7 @@ public class ${entityNameFU}ServiceImpl extends BaseServiceImp<${entityNameFU}> 
 		if (id == 1) { //不包括根${tableName}
 			return;
 		}
-		${entityNameFU} ${entityName} = ${entityName}Dao.getENtity(id);
+		${entityNameFU} ${entityName} = ${entityName}Dao.getEntity(id);
 		if (ValidateUtil.isValid(${entityName}List)) {
 			throw new MyException("请先删除子${tableName}！");
 		}

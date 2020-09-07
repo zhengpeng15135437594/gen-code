@@ -7,15 +7,17 @@
 		<#if conditionIn.web == 1>
 			<#if conditionIn.type == 1>
 	<div class="layui-form-item">
-		<label class="layui-form-label">${conditionIn.name}：</label>
-		<div class="layui-input-inline">
-			<#if conditionIn.required == 1>
-			<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
-				class="layui-input" lay-verify="required">
-			<#elseif conditionIn.required == 0>
-			<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
-				class="layui-input">
-			</#if>
+		<div class="layui-col-md11">
+			<label class="layui-form-label">${conditionIn.name}：</label>
+			<div class="layui-input-inline">
+				<#if conditionIn.required == 1>
+				<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
+					class="layui-input" lay-verify="required">
+				<#elseif conditionIn.required == 0>
+				<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" 
+					class="layui-input">
+				</#if>
+			</div>
 		</div>
 	</div>
 			</#if>
