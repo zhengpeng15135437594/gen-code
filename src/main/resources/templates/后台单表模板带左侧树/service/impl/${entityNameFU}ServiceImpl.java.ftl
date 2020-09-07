@@ -4,7 +4,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
+import ${packageName}.core.exception.MyException;
+import ${packageName}.core.util.ValidateUtil;
 import ${packageName}.core.dao.BaseDao;
 import ${packageName}.core.service.impl.BaseServiceImp;
 import ${packageName}.${projectName}.dao.${entityNameFU}Dao;
@@ -60,7 +63,7 @@ public class ${entityNameFU}ServiceImpl extends BaseServiceImp<${entityNameFU}> 
 		if (id == 1) { //不包括根${tableName}
 			return;
 		}
-		List<${entityNameFU}> ${entityName}List = ${entityName}Dao.getList(id);
+		${entityNameFU} ${entityName} = ${entityName}Dao.getENtity(id);
 		if (ValidateUtil.isValid(${entityName}List)) {
 			throw new MyException("请先删除子${tableName}！");
 		}

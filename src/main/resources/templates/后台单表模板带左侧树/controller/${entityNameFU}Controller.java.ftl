@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -177,11 +178,11 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doEdit(${entityNameFU} ${entityName}) {
 		try {
-			${entityNameFU} entity = ${entityName}Service.getEntity(${entityName}.id);
+			${entityNameFU} entity = ${entityName}Service.getEntity(${entityName}.getId());
 			<#list conditionInfoList as condition>
 				<#if condition.required == 1>
 					<#if condition.entityCode != "saasId" && condition.entityCode != "updateUserId" && condition.entityCode != "updateTime">
-			entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump});
+			entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump}());
 					</#if>
 				</#if>
 				<#if condition.entityCode == "updateTime">
