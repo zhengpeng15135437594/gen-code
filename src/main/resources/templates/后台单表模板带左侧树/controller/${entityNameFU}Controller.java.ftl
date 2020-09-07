@@ -46,10 +46,10 @@ public class ${entityNameFU}Controller extends BaseController {
 	@RequestMapping("/toList")
 	public String toList() {
 		try {
-			return "/sys/${entityName}/${entityName}List";
+			return "${projectName}/${entityName}/${entityName}List";
 		} catch (Exception e) {
 			log.error("到达${tableName}列表页面错误：", e);
-			return "/sys/${entityName}/${entityName}List";
+			return "${projectName}/${entityName}/${entityName}List";
 		}
 	}
 	
@@ -102,10 +102,10 @@ public class ${entityNameFU}Controller extends BaseController {
 			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
 				</#if>
 			</#list>
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		} catch (Exception e) {
 			log.error("到达添加${tableName}页面错误：", e);
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		}
 	}
 	
@@ -160,10 +160,10 @@ public class ${entityNameFU}Controller extends BaseController {
 			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
 				</#if>
 			</#list>
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		} catch (Exception e) {
 			log.error("到达修改${tableName}页面错误：", e);
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		}
 	}
 	
@@ -236,10 +236,10 @@ public class ${entityNameFU}Controller extends BaseController {
 	@RequestMapping("/toMove")
 	public String toMove() {
 		try {
-			return "/sys/${entityName}/${entityName}Move";
+			return "${projectName}/${entityName}/${entityName}Move";
 		} catch (Exception e) {
 			log.error("到达移动${tableName}页面错误", e);
-			return "/sys/${entityName}/${entityName}Move";
+			return "${projectName}/${entityName}/${entityName}Move";
 		}
 	}
 
