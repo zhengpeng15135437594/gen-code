@@ -3,17 +3,29 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <div lay-filter="dictEditFrom" class="layui-form" style="padding: 20px 0 0 0;">
 	<input type="hidden" id="${entityName}_id" name="id" value="${"$"}{${entityName}.id}" />
+	<div class="layui-row layui-form-item">
+		<div class="layui-col-md11">
+			<label class="layui-form-label">上级组织机构：</label>
+			<div class="layui-input-block">
+				<input type="hidden" id="${entityName}_parentId" name="parentId" value="parent${entityNameFU}.id "/>
+				<input id="${entityName}_parentName" name="parentName" value="parent${entityNameFU}.name " 
+					class="layui-input layui-disabled" lay-verify="required" readonly="readonly">
+			</div>
+		</div>
+	</div>
 	<#list conditionInfoList as conditionIn>
 		<#if conditionIn.web == 1>
 			<#if conditionIn.type == 1>
-	<div class="layui-form-item">
-		<label class="layui-form-label">${conditionIn.name}：</label>
-		<div class="layui-input-inline">
-			<#if conditionIn.required == 1>
-				<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" class="layui-input" lay-verify="required">
-			<#elseif conditionIn.required == 0>
-				<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" class="layui-input">
-			</#if>
+	<div class="layui-row layui-form-item">
+		<div class="layui-col-md11">
+			<label class="layui-form-label">${conditionIn.name}：</label>
+			<div class="layui-input-inline">
+				<#if conditionIn.required == 1>
+					<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" class="layui-input" lay-verify="required">
+				<#elseif conditionIn.required == 0>
+					<input name="${conditionIn.entityCode}" value="${"$"}{${entityName}.${conditionIn.entityCode}}" class="layui-input">
+				</#if>
+			</div>
 		</div>
 	</div>
 			</#if>

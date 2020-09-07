@@ -30,7 +30,7 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 		String sql = "SELECT * "
 				+ "FROM ${tableCode} ${tableAlias} ";
 		SqlUtil sqlUtil = new SqlUtil(sql);
-		sqlUtil.addWhere(ValidateUtil.isValid(pageIn.getOne()), "${tableAlias}.ID = ?", pageIn.getOne())
+		sqlUtil.addWhere(ValidateUtil.isValid(pageIn.getTwo()), "${tableAlias}.ID = ?", pageIn.getTwo())
 				<#list conditionInfoList as condition>
 					<#if condition.search == 1>
 						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} = ?", ${condition.pageIn})
@@ -41,10 +41,10 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 				</#list>
 				<#list conditionInfoList as conditionIn>
 					<#if conditionIn.sort == 2>
-						.addOrder("${tableAlias}.${conditionIn.code}", Order.ASC)
+						.addOrder("${tableAlias}.${conditionIn.code}", Order.ASC)<#sep>;</#sep>
 					</#if>
 					<#if conditionIn.sort == 1>
-						.addOrder("${tableAlias}.${conditionIn.code}", Order.DESC)
+						.addOrder("${tableAlias}.${conditionIn.code}", Order.DESC)<#sep>;</#sep>
 					</#if>
 				</#list>
 				;
@@ -62,7 +62,7 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 	
 	@Override
 	public List<Map<String, Object>> getTreeList() {
-		String sql = "SELECT T.ID, T.NAME, T.PARENT_ID, T.PARENT_SUB FROM ${tableCode} T WHERE T.STATE = 1 ORDER BY T.NO ASC";
+		String sql = "SELECT ID, NAME, PARENT_ID, PARENT_SUB FROM ${tableCode} WHERE STATE = 1 ORDER BY NO ASC";
 		return getMapList(sql);
 	}
 	

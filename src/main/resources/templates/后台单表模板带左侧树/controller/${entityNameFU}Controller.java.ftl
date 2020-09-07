@@ -152,6 +152,9 @@ public class ${entityNameFU}Controller extends BaseController {
 		try {
 			${entityNameFU} ${entityName} = ${entityName}Service.getEntity(id);
 			model.addAttribute("${entityName}", ${entityName});
+			if(${entityName}.getParentId() != null){
+				model.addAttribute("parent${entityNameFU}", ${entityName}Service.getEntity(${entityName}.getParentId()));
+			}
 			<#list conditionInfoList as condition>
 				<#if condition.type == 7>
 			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));

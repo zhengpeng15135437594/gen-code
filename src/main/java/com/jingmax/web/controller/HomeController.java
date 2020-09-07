@@ -558,7 +558,6 @@ public class HomeController {
 	 */
 	private static List<ConditionInfo> setPageIn(List<ConditionInfo> conditionInfoList) {
 		Map<Integer, String> map = new HashMap<>();
-		map.put(2, "pageIn.getTwo()");
 		map.put(3, "pageIn.getThree()");
 		map.put(4, "pageIn.getFour()");
 		map.put(5, "pageIn.getFive()");
@@ -568,7 +567,7 @@ public class HomeController {
 		map.put(9, "pageIn.getNine()");
 		map.put(10, "pageIn.getTen()");
 
-		Integer index = 2;
+		Integer index = 3;
 
 		for (ConditionInfo conditionInfo : conditionInfoList) {
 			if (conditionInfo.getSearch() != 0) {
