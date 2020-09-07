@@ -33,18 +33,18 @@ public class ${entityNameFU}DaoImpl extends RBaseDaoImpl<${entityNameFU}> implem
 		sqlUtil.addWhere(ValidateUtil.isValid(pageIn.getTwo()), "${tableAlias}.ID = ?", pageIn.getTwo())
 				<#list conditionInfoList as condition>
 					<#if condition.search == 1>
-						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} = ?", ${condition.pageIn})
+			   .addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} = ?", ${condition.pageIn})
 					</#if>
 					<#if condition.search == 2>
-						.addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", String.format("%%%s%%", ${condition.pageIn}))
+			   .addWhere(ValidateUtil.isValid(${condition.pageIn}), "${tableAlias}.${condition.code} LIKE ?", String.format("%%%s%%", ${condition.pageIn}))
 					</#if>
 				</#list>
 				<#list conditionInfoList as conditionIn>
 					<#if conditionIn.sort == 2>
-						.addOrder("${tableAlias}.${conditionIn.code}", Order.ASC)<#sep>;</#sep>
+			   .addOrder("${tableAlias}.${conditionIn.code}", Order.ASC)
 					</#if>
 					<#if conditionIn.sort == 1>
-						.addOrder("${tableAlias}.${conditionIn.code}", Order.DESC)<#sep>;</#sep>
+			   .addOrder("${tableAlias}.${conditionIn.code}", Order.DESC)
 					</#if>
 				</#list>
 				;

@@ -557,21 +557,30 @@ public class HomeController {
 	 * @return List<ConditionInfo>
 	 */
 	private static List<ConditionInfo> setPageIn(List<ConditionInfo> conditionInfoList) {
-		Map<Integer, String> map = new HashMap<>();
-		map.put(3, "pageIn.getThree()");
-		map.put(4, "pageIn.getFour()");
-		map.put(5, "pageIn.getFive()");
-		map.put(6, "pageIn.getSix()");
-		map.put(7, "pageIn.getSeven()");
-		map.put(8, "pageIn.getEight()");
-		map.put(9, "pageIn.getNine()");
-		map.put(10, "pageIn.getTen()");
+		Map<String, String> map = new HashMap<>();
+		map.put("3", "pageIn.getThree()");
+		map.put("3_", "three");
+		map.put("4", "pageIn.getFour()");
+		map.put("4_", "four");
+		map.put("5", "pageIn.getFive()");
+		map.put("5_", "five");
+		map.put("6", "pageIn.getSix()");
+		map.put("6_", "six");
+		map.put("7", "pageIn.getSeven()");
+		map.put("7_", "seven");
+		map.put("8", "pageIn.getEight()");
+		map.put("8_", "eight");
+		map.put("9", "pageIn.getNine()");
+		map.put("9_", "nine");
+		map.put("10", "pageIn.getTen()");
+		map.put("10_", "ten");
 
 		Integer index = 3;
 
 		for (ConditionInfo conditionInfo : conditionInfoList) {
 			if (conditionInfo.getSearch() != 0) {
-				conditionInfo.setPageIn(map.get(index));
+				conditionInfo.setPageIn(map.get(index+""));
+				conditionInfo.setPageInName(map.get(index+"_"));
 				index++;
 			}
 		}

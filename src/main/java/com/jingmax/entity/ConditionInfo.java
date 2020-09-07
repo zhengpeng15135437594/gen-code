@@ -24,8 +24,10 @@ public class ConditionInfo {
 	private Integer search;
 	// 排序
 	private Integer sort;
-	// 查询条件（one,two,three.....）
+	// 查询条件（pageIn.getThree()）
 	private String pageIn;
+	// 查询条件（three）
+	private String pageInName;
 
 	public ConditionInfo() {
 		super();
@@ -111,5 +113,11 @@ public class ConditionInfo {
 		this.pageIn = pageIn;
 	}
 
-	
+	public String getPageInName() {
+		return pageInName;
+	}
+
+	public void setPageInName(String pageInName) {
+		this.pageInName = pageInName;
+	}
 }

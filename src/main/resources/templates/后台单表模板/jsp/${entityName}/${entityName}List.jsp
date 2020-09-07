@@ -12,18 +12,19 @@
 			<div class="layui-card">
 				<%-- ${tableName}查询条件 --%>
 				<form id="${entityName}QueryForm" class="layui-form layui-card-header layuiadmin-card-header-auto">
-					<div class="layui-form-item ">	
+					<div class="layui-form-item ">
+						<div class="layui-inline">
+							<input type="text" name="two" placeholder="请输入ID" class="layui-input">
+						</div>
 				<#list conditionInfoList as condition>
 					<#if condition.search == 1>
 						<div class="layui-inline">
-						
-							<input type="text" name="${condition.pageIn}" placeholder="${condition.name}" class="layui-input">
+							<input type="text" name="${condition.pageInName}" placeholder="请输入${condition.name}" class="layui-input">
 						</div>
 					</#if>
 					<#if condition.search == 2>
 						<div class="layui-inline">
-						
-							<input type="text" name="${condition.pageIn}" placeholder="${condition.name}" class="layui-input">
+							<input type="text" name="${condition.pageInName}" placeholder="请输入${condition.name}" class="layui-input">
 						</div>
 					</#if>
 				</#list>
