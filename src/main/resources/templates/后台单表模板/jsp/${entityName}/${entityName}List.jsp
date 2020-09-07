@@ -12,10 +12,21 @@
 			<div class="layui-card">
 				<%-- ${tableName}查询条件 --%>
 				<form id="${entityName}QueryForm" class="layui-form layui-card-header layuiadmin-card-header-auto">
-					<div class="layui-form-item ">
+					<div class="layui-form-item ">	
+				<#list conditionInfoList as condition>
+					<#if condition.search == 1>
 						<div class="layui-inline">
-							<input type="text" name="one" placeholder="请输入ID" class="layui-input">
+						
+							<input type="text" name="${condition.pageIn}" placeholder="${condition.name}" class="layui-input">
 						</div>
+					</#if>
+					<#if condition.search == 2>
+						<div class="layui-inline">
+						
+							<input type="text" name="${condition.pageIn}" placeholder="${condition.name}" class="layui-input">
+						</div>
+					</#if>
+				</#list>
 						<div class="layui-inline">
 							<button type="button" class="layui-btn layuiadmin-btn-useradmin" onclick="${entityName}Query();">
 								<i class="layui-icon layuiadmin-button-btn"></i>查询
