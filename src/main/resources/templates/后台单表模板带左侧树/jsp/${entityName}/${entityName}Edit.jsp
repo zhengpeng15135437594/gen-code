@@ -1,7 +1,7 @@
 <%@ page language="java" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<div lay-filter="dictEditFrom" class="layui-form" style="padding: 20px 0 0 0;">
+<div lay-filter="${entityName}EditFrom" class="layui-form" style="padding: 20px 0 0 0;">
 	<input type="hidden" id="${entityName}_id" name="id" value="${"$"}{${entityName}.id}" />
 	<div class="layui-row layui-form-item">
 		<div class="layui-col-md11">
