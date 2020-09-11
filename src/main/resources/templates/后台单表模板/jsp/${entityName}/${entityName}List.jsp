@@ -102,7 +102,7 @@
 				}
 			});
 			layui.table.on("rowDouble(${entityName}Table)", function(obj){
-				<my:auth url="${entityName}/toEdit">to${entityNameFU}EditForDblClick(obj.data.ID);</my:auth>
+				<my:auth url="${entityName}/toEdit">to${entityNameFU}Edit(obj.data.ID);</my:auth>
 			});
 			layui.table.on("tool(${entityName}Table)", function(obj){
 				var data = obj.data;
