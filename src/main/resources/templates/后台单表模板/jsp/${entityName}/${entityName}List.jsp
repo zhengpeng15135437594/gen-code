@@ -169,7 +169,7 @@
 					});
 				});
 			});
-			$("#${entityName}EditBtn").click();
+			$("[lay-filter='${entityName}EditBtn']").click();
 		}
 		
 		//到达修改${tableName}页面
@@ -222,7 +222,7 @@
 					});
 				});
 			});
-			$("#${entityName}EditBtn").click();;
+			$("[lay-filter='${entityName}EditBtn']").click();;
 		}
 
 		//完成删除${tableName}

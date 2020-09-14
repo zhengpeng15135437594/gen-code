@@ -35,7 +35,7 @@
 	<div class="layui-form-item">
 		<div class="layui-col-md11">
 			<label class="layui-form-label">${conditionIn.name}：</label>
-			<div class="layui-input-inline" >
+			<div class="layui-input-block" >
 		        <select name="${conditionIn.entityCode}">                
 			        <c:forEach var="${conditionIn.entityCode}" items="${conditionIn.entityCode}List" >
 			        <option value="" name="${conditionIn.entityCode}"></option>
@@ -49,7 +49,7 @@
 	<div class="layui-form-item">
 		<div class="layui-col-md11">
 			<label class="layui-form-label">${conditionIn.name}：</label>
-			<div class="layui-input-inline">
+			<div class="layui-input-block">
 				<c:forEach var="conditionIn.entityCode" items="${conditionIn.entityCode}List">
 				<input type="radio" name="${conditionIn.entityCode}">
 				</c:forEach>
@@ -61,7 +61,7 @@
 	<div class="layui-form-item">
 		<div class="layui-col-md11">
 			<label class="layui-form-label">${conditionIn.name}：</label>
-			<div class="layui-input-inline">
+			<div class="layui-input-block">
 				<c:forEach var="conditionIn.entityCode" items="${conditionIn.entityCode}List">
 				<input type="checkbox" name="${conditionIn.entityCode}">
 				</c:forEach>
@@ -103,7 +103,7 @@
 	<div class="layui-form-item">
 		<div class="layui-col-md11">
 			<label class="layui-form-label">${conditionIn.name}：</label>
-			<div class="layui-input-inline">
+			<div class="layui-input-block">
 				<select name="${conditionIn.entityCode}" lay-filter="">
 				<c:forEach var="dict" items="${conditionIn.entityCode}List">
 					<option value="${"$"}{dict.dictKey }" ${"$"}{dict.dictKey == ${"$"}{${entityName}.${conditionIn.entityCode}} ? "selected" : ""}> ${"$"}{dict.dictValue }</option>
