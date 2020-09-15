@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${packageName}.core.controller.BaseController;
 import ${packageName}.core.entity.PageIn;
-import ${packageName}.core.entity.PageOut;
 import ${packageName}.core.entity.PageResult;
+import ${packageName}.core.entity.PageResultEx;
 import ${packageName}.${projectName}.entity.${entityNameFU};
 import ${packageName}.${projectName}.service.${entityNameFU}Service;
-import ${packageName}.sys.cache.DictCache;
+import ${packageName}.base.cache.DictCache;
 import ${packageName}.core.exception.MyException;
 /**
  * ${tableName}控制层

@@ -64,6 +64,7 @@ public class ${entityNameFU}ServiceImpl extends BaseServiceImp<${entityNameFU}> 
 			return;
 		}
 		${entityNameFU} ${entityName} = ${entityName}Dao.getEntity(id);
+		List<${entityNameFU}> ${entityName}List = ${entityName}Dao.getList(${entityName}.getParentId());
 		if (ValidateUtil.isValid(${entityName}List)) {
 			throw new MyException("请先删除子${tableName}！");
 		}
