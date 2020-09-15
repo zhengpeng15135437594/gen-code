@@ -25,4 +25,12 @@ public class ${entityNameFU}ServiceImpl extends BaseServiceImp<${entityNameFU}> 
 	public void setDao(BaseDao<${entityNameFU}> dao) {
 		super.dao = dao;
 	}
+	
+	@Override
+	public void delAndUpdate(Integer id) {
+		// 校验数据有效性
+		${entityNameFU} entity = getEntity(id);
+		entity.setState(0);
+		update(entity);
+	}
 }

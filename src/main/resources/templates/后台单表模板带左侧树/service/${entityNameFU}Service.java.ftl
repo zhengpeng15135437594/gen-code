@@ -17,10 +17,20 @@ public interface ${entityNameFU}Service extends BaseService<${entityNameFU}> {
 	 * 
 	 * v1.0 ${author} ${updateTime}
 	 * 
-	 * @param org
+	 * @param ${entityName}
 	 * void
 	 */
 	void addAndUpdate(${entityNameFU} ${entityName});
+	
+	/**
+	 * 修改${tableName}
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * 
+	 * @param ${entityName}
+	 * void
+	 */
+	void editAndUpdate(${entityNameFU} ${entityName});
 
 	/**
 	 * 删除${tableName}

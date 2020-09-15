@@ -10,4 +10,13 @@ import ${packageName}.${projectName}.entity.${entityNameFU};
  */
 public interface ${entityNameFU}Service extends BaseService<${entityNameFU}> {
 
+	/**
+	 * 修改${tableName}
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * 
+	 * @param ${entityName}
+	 * void
+	 */
+	void editAndUpdate(${entityNameFU} ${entityName});
 }

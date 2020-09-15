@@ -190,7 +190,7 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doDel(Integer id) {
 		try {
-			${entityName}Service.del(id);
+			${entityName}Service.delAndUpdate(id);
 			return new PageResult(true, "删除成功");
 		} catch (MyException e) {
 			log.error("完成删除${tableName}错误：{}", e.getMessage());

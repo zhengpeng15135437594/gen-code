@@ -116,7 +116,7 @@
 		
 		//${tableName}查询
 		function ${entityName}Query() {
-			layui.table.reload(${entityName}Table, {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
+			layui.table.reload("${entityName}Table", {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
 		}
 	
 		//${tableName}重置
@@ -156,7 +156,7 @@
 						url : "${entityName}/doAdd",
 						data : data.field,
 						success : function(obj) {
-							${entityName}Query();
+							init${entityNameFU}Table();
 							
 							if (!obj.succ) {
 								layer.alert(obj.msg, {"title" : "提示消息"});
@@ -209,7 +209,7 @@
 						url : "${entityName}/doEdit",
 						data : data.field,
 						success : function(obj) {
-							${entityName}Query();
+							init${entityNameFU}Table();
 							
 							if (!obj.succ) {
 								layer.alert(obj.msg, {"title" : "提示消息"});
@@ -226,13 +226,13 @@
 		}
 
 		//完成删除${tableName}
-		function do${entityNameFU}DelForBtn() {
+		function do${entityNameFU}Del(id) {
 			layer.confirm("确定要删除？", function(index) {
 				$.ajax({
 					url : "${entityName}/doDel",
 					data : {id : id},
 					success : function(obj) {
-						${entityName}Query();
+						init${entityNameFU}Table();
 						
 						if (!obj.succ) {
 							layer.alert(obj.msg, {"title" : "提示消息"});

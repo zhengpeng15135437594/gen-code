@@ -58,6 +58,27 @@ public class ${entityNameFU}ServiceImpl extends BaseServiceImp<${entityNameFU}> 
 	}
 
 	@Override
+	public void editAndUpdate(${entityNameFU} ${entityName}) {
+		// 校验数据有效性
+		if (!ValidateUtil.isValid(${entityName}.getName())) {
+			throw new MyException("参数错误：name");
+		}
+		if (${entityName}.getParentId() == null || ${entityName}.getParentId() == 0) {
+			throw new MyException("参数错误：parentId");
+		}
+		
+		if (existName(helpCenterType)) {
+			throw new MyException("名称已存在！");
+		}
+		
+		// 修改${tableName}
+		${entityNameFU} entity = getEntity(${entityName}.getId());
+		entity.setUpdateUserId(getCurUser().getId());
+		entity.setUpdateTime(new Date());
+		update(entity);
+	}
+
+	@Override
 	public void delAndUpdate(Integer id) {
 		// 校验数据有效性
 		if (id == 1) { //不包括根${tableName}

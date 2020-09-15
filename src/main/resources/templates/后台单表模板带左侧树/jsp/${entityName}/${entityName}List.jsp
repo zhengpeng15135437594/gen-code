@@ -175,7 +175,7 @@
 		
 		//${tableName}查询
 		function ${entityName}Query() {
-			layui.table.reload(${entityName}Table, {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
+			layui.table.reload("${entityName}Table", {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
 		}
 	
 		//${tableName}重置
@@ -395,6 +395,7 @@
 		//刷新${tableName}
 		function ${entityName}TreeFlush() {
 			${entityName}Tree.reAsyncChildNodes(null, "refresh");
+			init${entityNameFU}Table();
 		}
 		
 	</script>

@@ -103,8 +103,8 @@
 			<label class="layui-form-label">${conditionIn.name}：</label>
 			<div class="layui-input-block">
 				<select name="${conditionIn.entityCode}" lay-filter="">
-				<c:forEach var="dict" items="${conditionIn.entityCode}List">
-					<option value="${"$"}{dict.dictKey }" ${"$"}{dict.dictKey == ${"$"}{${entityName}.${conditionIn.entityCode}} ? "selected" : ""}> ${"$"}{dict.dictValue }</option>
+				<c:forEach var="dict" items="${"$"}{${conditionIn.entityCode}List}">
+					<option value="${"$"}{dict.dictKey }" ${"$"}{dict.dictKey == ${entityName}.${conditionIn.entityCode} ? "selected" : ""}> ${"$"}{dict.dictValue }</option>
 				</c:forEach>
 				</select>
 	 		</div>

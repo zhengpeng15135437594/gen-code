@@ -120,18 +120,7 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doAdd(${entityNameFU} ${entityName}) {
 		try {
-			<#list conditionInfoList as condition>
-				<#if condition.entityCode == "updateTime">
-			${entityName}.setUpdateTime(new Date());
-				</#if>
-				<#if condition.entityCode == "updateUserId">
-			${entityName}.setUpdateUserId(getCurUser().getId());
-				</#if>
-				<#if condition.entityCode == "saasId">
-			${entityName}.setSaasId(getCurUser().getSaasId());
-				</#if>
-			</#list>
-			${entityName}Service.add(${entityName});
+			${entityName}Service.addAndUpdate(${entityName});
 			return new PageResult(true, "添加成功");
 		} catch (MyException e) {
 			log.error("完成添加${tableName}错误：{}", e.getMessage());
@@ -178,23 +167,6 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doEdit(${entityNameFU} ${entityName}) {
 		try {
-			${entityNameFU} entity = ${entityName}Service.getEntity(${entityName}.getId());
-			<#list conditionInfoList as condition>
-				<#if condition.required == 1>
-					<#if condition.entityCode != "saasId" && condition.entityCode != "updateUserId" && condition.entityCode != "updateTime">
-			entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump}());
-					</#if>
-				</#if>
-				<#if condition.entityCode == "updateTime">
-			entity.setUpdateTime(new Date());
-				</#if>
-				<#if condition.entityCode == "updateUserId">
-			entity.setUpdateUserId(getCurUser().getId());
-				</#if>
-				<#if condition.entityCode == "saasId">
-			entity.setSaasId(getCurUser().getSaasId());
-				</#if>
-			</#list>
 			${entityName}Service.update(entity);
 			return new PageResult(true, "修改成功");
 		} catch (MyException e) {
@@ -216,7 +188,7 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doDel(Integer id) {
 		try {
-			${entityName}Service.del(id);
+			${entityName}Service.delAndUpdate(id);
 			return new PageResult(true, "删除成功");
 		} catch (MyException e) {
 			log.error("完成删除${tableName}错误：{}", e.getMessage());
