@@ -11,12 +11,12 @@ import ${packageName}.${projectName}.entity.${entityNameFU};
 public interface ${entityNameFU}Service extends BaseService<${entityNameFU}> {
 
 	/**
-	 * 修改${tableName}
+	 * 删除${tableName}
 	 * 
 	 * v1.0 ${author} ${updateTime}
 	 * 
-	 * @param ${entityName}
+	 * @param id
 	 * void
 	 */
-	void delAndUpdate(${entityNameFU} ${entityName});
+	void delAndUpdate(Integer id);
 }
