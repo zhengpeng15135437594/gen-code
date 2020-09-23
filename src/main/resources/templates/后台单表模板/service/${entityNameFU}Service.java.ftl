@@ -18,5 +18,5 @@ public interface ${entityNameFU}Service extends BaseService<${entityNameFU}> {
 	 * @param ${entityName}
 	 * void
 	 */
-	void editAndUpdate(${entityNameFU} ${entityName});
+	void delAndUpdate(${entityNameFU} ${entityName});
 }
