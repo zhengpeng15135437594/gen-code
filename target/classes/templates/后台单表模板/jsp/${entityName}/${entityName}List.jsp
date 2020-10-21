@@ -14,8 +14,20 @@
 				<form id="${entityName}QueryForm" class="layui-form layui-card-header layuiadmin-card-header-auto">
 					<div class="layui-form-item ">
 						<div class="layui-inline">
-							<input type="text" name="one" placeholder="请输入ID" class="layui-input">
+							<input type="text" name="two" placeholder="请输入ID" class="layui-input">
 						</div>
+				<#list conditionInfoList as condition>
+					<#if condition.search == 1>
+						<div class="layui-inline">
+							<input type="text" name="${condition.pageInName}" placeholder="请输入${condition.name}" class="layui-input">
+						</div>
+					</#if>
+					<#if condition.search == 2>
+						<div class="layui-inline">
+							<input type="text" name="${condition.pageInName}" placeholder="请输入${condition.name}" class="layui-input">
+						</div>
+					</#if>
+				</#list>
 						<div class="layui-inline">
 							<button type="button" class="layui-btn layuiadmin-btn-useradmin" onclick="${entityName}Query();">
 								<i class="layui-icon layuiadmin-button-btn"></i>查询
@@ -53,7 +65,7 @@
 		//初始化${tableName}表格
 		function init${entityNameFU}Table() {
 			layui.table.render({
-				elem : "#" + ${entityName}Table,
+				elem : "#${entityName}Table",
 				url : "${entityName}/list",
 				cols : [[
 						<#list conditionInfoList as conditionInfo>
@@ -89,8 +101,8 @@
 					statusCode : true
 				}
 			});
-			layui.table.on("rowDouble("+${entityName}TableId+")", function(obj){
-				<my:auth url="${entityName}/toEdit">to${entityNameFU}EditForDblClick(obj.data.ID);</my:auth>
+			layui.table.on("rowDouble(${entityName}Table)", function(obj){
+				<my:auth url="${entityName}/toEdit">to${entityNameFU}Edit(obj.data.ID);</my:auth>
 			});
 			layui.table.on("tool(${entityName}Table)", function(obj){
 				var data = obj.data;
@@ -104,7 +116,7 @@
 		
 		//${tableName}查询
 		function ${entityName}Query() {
-			layui.table.reload(${entityName}Table, {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
+			layui.table.reload("${entityName}Table", {"where" : $.fn.my.serializeObj(${entityName}QueryForm)});
 		}
 	
 		//${tableName}重置
@@ -144,7 +156,7 @@
 						url : "${entityName}/doAdd",
 						data : data.field,
 						success : function(obj) {
-							${entityName}Query();
+							init${entityNameFU}Table();
 							
 							if (!obj.succ) {
 								layer.alert(obj.msg, {"title" : "提示消息"});
@@ -157,7 +169,7 @@
 					});
 				});
 			});
-			$("#${entityName}EditBtn").click();
+			$("[lay-filter='${entityName}EditBtn']").click();
 		}
 		
 		//到达修改${tableName}页面
@@ -177,6 +189,11 @@
 							do${entityNameFU}Edit(index);
 						},
 						success: function(layero, index){
+							<#list conditionInfoList as conditionInfo>
+								<#if conditionInfo.type == 6>
+							layui.laydate.render({elem: "#${conditionInfo.entityCode}",type: "datetime"});
+								</#if>
+							</#list>
 							layui.form.render(null, "${entityName}EditFrom");
 						}
 					});
@@ -192,7 +209,7 @@
 						url : "${entityName}/doEdit",
 						data : data.field,
 						success : function(obj) {
-							${entityName}Query();
+							init${entityNameFU}Table();
 							
 							if (!obj.succ) {
 								layer.alert(obj.msg, {"title" : "提示消息"});
@@ -205,17 +222,17 @@
 					});
 				});
 			});
-			$("#${entityName}EditBtn").click();;
+			$("[lay-filter='${entityName}EditBtn']").click();;
 		}
 
 		//完成删除${tableName}
-		function do${entityNameFU}DelForBtn() {
+		function do${entityNameFU}Del(id) {
 			layer.confirm("确定要删除？", function(index) {
 				$.ajax({
 					url : "${entityName}/doDel",
 					data : {id : id},
 					success : function(obj) {
-						${entityName}Query();
+						init${entityNameFU}Table();
 						
 						if (!obj.succ) {
 							layer.alert(obj.msg, {"title" : "提示消息"});
@@ -227,14 +244,6 @@
 				});
 			});
 		}
-		
-		<#list conditionInfoList as conditionInfo>
-		<#if conditionInfo.type == 6>
-		layui.laydate.render({
-	        elem: '#${conditionInfo.entityCode}'
-	        ,type: 'datetime'
-	      })
-		</#if>
-		</#list>
+
 	</script>
 </html>

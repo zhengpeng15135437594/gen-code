@@ -10,4 +10,13 @@ import ${packageName}.${projectName}.entity.${entityNameFU};
  */
 public interface ${entityNameFU}Service extends BaseService<${entityNameFU}> {
 
+	/**
+	 * 删除${tableName}
+	 * 
+	 * v1.0 ${author} ${updateTime}
+	 * 
+	 * @param id
+	 * void
+	 */
+	void delAndUpdate(Integer id);
 }

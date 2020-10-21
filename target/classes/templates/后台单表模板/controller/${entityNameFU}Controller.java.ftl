@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ${packageName}.core.controller.BaseController;
 import ${packageName}.core.entity.PageIn;
-import ${packageName}.core.entity.PageOut;
 import ${packageName}.core.entity.PageResult;
+import ${packageName}.core.entity.PageResultEx;
 import ${packageName}.${projectName}.entity.${entityNameFU};
 import ${packageName}.${projectName}.service.${entityNameFU}Service;
-import ${packageName}.sys.cache.DictCache;
+import ${packageName}.base.cache.DictCache;
 import ${packageName}.core.exception.MyException;
 /**
  * ${tableName}控制层
@@ -42,10 +42,10 @@ public class ${entityNameFU}Controller extends BaseController {
 	@RequestMapping("/toList")
 	public String toList() {
 		try {
-			return "/sys/${entityName}/${entityName}List";
+			return "${projectName}/${entityName}/${entityName}List";
 		} catch (Exception e) {
 			log.error("到达${tableName}列表页面错误：", e);
-			return "/sys/${entityName}/${entityName}List";
+			return "${projectName}/${entityName}/${entityName}List";
 		}
 	}
 	
@@ -57,12 +57,12 @@ public class ${entityNameFU}Controller extends BaseController {
 	 */
 	@RequestMapping("/list")
 	@ResponseBody
-	public PageOut list(PageIn pageIn) {
+	public PageResult list(PageIn pageIn) {
 		try {
-			return ${entityName}Service.getListpage(pageIn);
+			return new PageResultEx(true, "查询成功", ${entityName}Service.getListpage(pageIn));
 		} catch (Exception e) {
 			log.error("${tableName}列表错误：", e);
-			return new PageOut();
+			return new PageResult(false, "查询失败");
 		}
 	}
 	
@@ -80,10 +80,10 @@ public class ${entityNameFU}Controller extends BaseController {
 			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
 				</#if>
 			</#list>
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		} catch (Exception e) {
 			log.error("到达添加${tableName}页面错误：", e);
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		}
 	}
 	
@@ -112,10 +112,10 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(true, "添加成功");
 		} catch (MyException e) {
 			log.error("完成添加${tableName}错误：{}", e.getMessage());
-			return new PageResult(false, "添加失败：" + e.getMessage());
+			return new PageResult(false, e.getMessage());
 		} catch (Exception e) {
 			log.error("完成添加${tableName}错误：", e);
-			return new PageResult(false, "添加失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 	
@@ -135,10 +135,10 @@ public class ${entityNameFU}Controller extends BaseController {
 			model.addAttribute("${condition.entityCode}List", DictCache.getIndexDictlistMap().get("${tableAlias}_${condition.code}"));
 				</#if>
 			</#list>
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		} catch (Exception e) {
 			log.error("到达修改${tableName}页面错误：", e);
-			return "/sys/${entityName}/${entityName}Edit";
+			return "${projectName}/${entityName}/${entityName}Edit";
 		}
 	}
 	
@@ -152,11 +152,11 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doEdit(${entityNameFU} ${entityName}) {
 		try {
-			${entityNameFU} entity = ${entityName}Service.getEntity(${entityName}.id);
+			${entityNameFU} entity = ${entityName}Service.getEntity(${entityName}.getId());
 			<#list conditionInfoList as condition>
 				<#if condition.required == 1>
 					<#if condition.entityCode != "saasId" && condition.entityCode != "updateUserId" && condition.entityCode != "updateTime">
-			entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump});
+			entity.set${condition.codeToHump}(${entityName}.get${condition.codeToHump}());
 					</#if>
 				</#if>
 				<#if condition.entityCode == "updateTime">
@@ -173,10 +173,10 @@ public class ${entityNameFU}Controller extends BaseController {
 			return new PageResult(true, "修改成功");
 		} catch (MyException e) {
 			log.error("完成修改${tableName}错误：{}", e.getMessage());
-			return new PageResult(false, "修改失败：" + e.getMessage());
+			return new PageResult(false, e.getMessage());
 		} catch (Exception e) {
 			log.error("完成修改${tableName}错误：", e);
-			return new PageResult(false, "修改失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 	
@@ -190,14 +190,14 @@ public class ${entityNameFU}Controller extends BaseController {
 	@ResponseBody
 	public PageResult doDel(Integer id) {
 		try {
-			${entityName}Service.del(id);
+			${entityName}Service.delAndUpdate(id);
 			return new PageResult(true, "删除成功");
 		} catch (MyException e) {
 			log.error("完成删除${tableName}错误：{}", e.getMessage());
-			return new PageResult(false, "删除失败：" + e.getMessage());
+			return new PageResult(false, e.getMessage());
 		} catch (Exception e) {
 			log.error("完成删除${tableName}错误：", e);
-			return new PageResult(false, "删除失败：" + e.getMessage());
+			return new PageResult(false, "未知异常");
 		}
 	}
 
